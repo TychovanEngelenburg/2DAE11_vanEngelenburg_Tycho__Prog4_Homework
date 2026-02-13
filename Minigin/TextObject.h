@@ -8,10 +8,10 @@ namespace dae
 {
 	class Font;
 	class Texture2D;
-	class TextObject final : public GameObject
+	class TextObject final : public GameObject // TODO: Implement association over inheritance.
 	{
 	public:
-		void Update() override;
+		void Update(double deltaTime) override;
 		void Render() const override;
 
 		void SetText(const std::string& text);

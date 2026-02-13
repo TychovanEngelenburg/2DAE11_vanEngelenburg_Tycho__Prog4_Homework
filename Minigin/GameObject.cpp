@@ -5,7 +5,17 @@
 
 dae::GameObject::~GameObject() = default;
 
-void dae::GameObject::Update(){}
+void dae::GameObject::Update(double deltaTime)
+{
+	deltaTime; 
+	// No implementation yet.
+}
+
+void dae::GameObject::FixedUpdate(double fixedDeltaTime)
+{
+	fixedDeltaTime;
+	// No implementation yet.
+}
 
 void dae::GameObject::Render() const
 {

@@ -15,6 +15,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include <chrono>
 
 SDL_Window* g_window{};
 
@@ -49,15 +50,15 @@ void PrintSDLVersion()
 	// LogSDLVersion("Compiled with SDL_image ",SDL_IMAGE_MAJOR_VERSION, SDL_IMAGE_MINOR_VERSION, SDL_IMAGE_MICRO_VERSION);
 	// version = IMG_Version();
 	// LogSDLVersion("Linked with SDL_image ", SDL_VERSIONNUM_MAJOR(version), SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version));
-	LogSDLVersion("Compiled with SDL_ttf ",	SDL_TTF_MAJOR_VERSION, SDL_TTF_MINOR_VERSION,SDL_TTF_MICRO_VERSION);
+	LogSDLVersion("Compiled with SDL_ttf ", SDL_TTF_MAJOR_VERSION, SDL_TTF_MINOR_VERSION, SDL_TTF_MICRO_VERSION);
 	version = TTF_Version();
-	LogSDLVersion("Linked with SDL_ttf ", SDL_VERSIONNUM_MAJOR(version), SDL_VERSIONNUM_MINOR(version),	SDL_VERSIONNUM_MICRO(version));
+	LogSDLVersion("Linked with SDL_ttf ", SDL_VERSIONNUM_MAJOR(version), SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version));
 }
 
 dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 {
 	PrintSDLVersion();
-	
+
 	if (!SDL_InitSubSystem(SDL_INIT_VIDEO))
 	{
 		SDL_Log("Renderer error: %s", SDL_GetError());
@@ -70,7 +71,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath)
 		576,
 		SDL_WINDOW_OPENGL
 	);
-	if (g_window == nullptr) 
+	if (g_window == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
@@ -90,6 +91,8 @@ dae::Minigin::~Minigin()
 void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
+	m_lastFrameTime = std::chrono::high_resolution_clock::now(); 
+
 #ifndef __EMSCRIPTEN__
 	while (!m_quit)
 		RunOneFrame();
@@ -100,7 +103,22 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 void dae::Minigin::RunOneFrame()
 {
-	m_quit = !InputManager::GetInstance().ProcessInput();
-	SceneManager::GetInstance().Update();
-	Renderer::GetInstance().Render();
+		auto const currentTime = std::chrono::high_resolution_clock::now();
+		auto const deltaTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime- m_lastFrameTime);
+		m_lastFrameTime = currentTime;
+
+		m_quit = !InputManager::GetInstance().ProcessInput();
+		
+		m_Lag += deltaTime.count();
+		while (m_Lag >= m_fixedDeltaTime)
+		{
+			SceneManager::GetInstance().FixedUpdate(m_fixedDeltaTime);
+			m_Lag -= m_fixedDeltaTime;
+		}
+		
+		SceneManager::GetInstance().Update(static_cast<double>(deltaTime.count()));
+		
+		Renderer::GetInstance().Render();
+
+		// TODO: framerate limiting/possible thread sleep
 }

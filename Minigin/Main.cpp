@@ -34,6 +34,7 @@ static void load()
 	scene.Add(std::move(to));
 }
 
+
 int main(int, char*[]) {
 #if __EMSCRIPTEN__
 	fs::path data_location = "";
