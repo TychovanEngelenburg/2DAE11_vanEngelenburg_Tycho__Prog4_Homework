@@ -4,10 +4,11 @@
 #include "Renderer.h"
 #include "Texture2D.h"
 #include "Font.h"
+#include <filesystem>
 
 namespace fs = std::filesystem;
 
-void dae::ResourceManager::Init(const std::filesystem::path& dataPath)
+void dae::ResourceManager::Init(std::filesystem::path const& dataPath)
 {
 	m_dataPath = dataPath;
 
@@ -17,20 +18,20 @@ void dae::ResourceManager::Init(const std::filesystem::path& dataPath)
 	}
 }
 
-std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::string& file)
+std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(std::string_view file)
 {
-	const auto fullPath = m_dataPath/file;
-	const auto filename = fs::path(fullPath).filename().string();
+	auto const fullPath = m_dataPath/file;
+	auto const filename = fs::path(fullPath).filename().string();
 	if(m_loadedTextures.find(filename) == m_loadedTextures.end())
 		m_loadedTextures.insert(std::pair(filename,std::make_shared<Texture2D>(fullPath.string())));
 	return m_loadedTextures.at(filename);
 }
 
-std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string& file, uint8_t size)
+std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(std::string_view file, uint8_t size)
 {
-	const auto fullPath = m_dataPath/file;
-	const auto filename = fs::path(fullPath).filename().string();
-	const auto key = std::pair<std::string, uint8_t>(filename, size);
+	auto const fullPath = m_dataPath/file;
+	auto const filename = fs::path(fullPath).filename().string();
+	auto const key = std::pair<std::string, uint8_t>(filename, size);
 	if(m_loadedFonts.find(key) == m_loadedFonts.end())
 		m_loadedFonts.insert(std::pair(key,std::make_shared<Font>(fullPath.string(), size)));
 	return m_loadedFonts.at(key);

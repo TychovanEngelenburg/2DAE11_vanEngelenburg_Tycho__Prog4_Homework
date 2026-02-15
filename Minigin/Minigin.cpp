@@ -19,7 +19,7 @@
 
 SDL_Window* g_window{};
 
-void LogSDLVersion(const std::string& message, int major, int minor, int patch)
+void LogSDLVersion(std::string const& message, int major, int minor, int patch)
 {
 #if WIN32
 	std::stringstream ss;
@@ -32,6 +32,7 @@ void LogSDLVersion(const std::string& message, int major, int minor, int patch)
 
 #ifdef __EMSCRIPTEN__
 #include "emscripten.h"
+#include <filesystem>
 
 void LoopCallback(void* arg)
 {
@@ -55,40 +56,7 @@ void PrintSDLVersion()
 	LogSDLVersion("Linked with SDL_ttf ", SDL_VERSIONNUM_MAJOR(version), SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version));
 }
 
-dae::Minigin::Minigin(const std::filesystem::path& dataPath)
-{
-	PrintSDLVersion();
-
-	if (!SDL_InitSubSystem(SDL_INIT_VIDEO))
-	{
-		SDL_Log("Renderer error: %s", SDL_GetError());
-		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
-	}
-
-	g_window = SDL_CreateWindow(
-		"Programming 4 assignment",
-		1024,
-		576,
-		SDL_WINDOW_OPENGL
-	);
-	if (g_window == nullptr)
-	{
-		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
-	}
-
-	Renderer::GetInstance().Init(g_window);
-	ResourceManager::GetInstance().Init(dataPath);
-}
-
-dae::Minigin::~Minigin()
-{
-	Renderer::GetInstance().Destroy();
-	SDL_DestroyWindow(g_window);
-	g_window = nullptr;
-	SDL_Quit();
-}
-
-void dae::Minigin::Run(const std::function<void()>& load)
+void dae::Minigin::Run(std::function<void()> const& load)
 {
 	load();
 	m_lastFrameTime = std::chrono::high_resolution_clock::now(); 
@@ -121,4 +89,37 @@ void dae::Minigin::RunOneFrame()
 		Renderer::GetInstance().Render();
 
 		// TODO: framerate limiting/possible thread sleep
+}
+
+dae::Minigin::Minigin(std::filesystem::path const& dataPath)
+{
+	PrintSDLVersion();
+
+	if (!SDL_InitSubSystem(SDL_INIT_VIDEO))
+	{
+		SDL_Log("Renderer error: %s", SDL_GetError());
+		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
+	}
+
+	g_window = SDL_CreateWindow(
+		"Programming 4 assignment",
+		1024,
+		576,
+		SDL_WINDOW_OPENGL
+	);
+	if (g_window == nullptr)
+	{
+		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
+	}
+
+	Renderer::GetInstance().Init(g_window);
+	ResourceManager::GetInstance().Init(dataPath);
+}
+
+dae::Minigin::~Minigin()
+{
+	Renderer::GetInstance().Destroy();
+	SDL_DestroyWindow(g_window);
+	g_window = nullptr;
+	SDL_Quit();
 }

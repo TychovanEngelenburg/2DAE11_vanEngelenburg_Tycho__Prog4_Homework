@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SCENEMANAGER_H
+#define SCENEMANAGER_H
 #include <vector>
 #include <string>
 #include <memory>
@@ -16,9 +17,11 @@ namespace dae
 		void FixedUpdate(double deltaTime);
 		void Update(double deltaTime);
 		void Render();
+
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 		std::vector<std::unique_ptr<Scene>> m_scenes{};
 	};
 }
+#endif // !SCENEMANAGER_H

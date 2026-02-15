@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SINGLETON_H
+#define SINGLETON_H
+
 namespace dae
 {
 	template <typename T>
@@ -12,12 +14,13 @@ namespace dae
 		}
 
 		virtual ~Singleton() = default;
-		Singleton(const Singleton& other) = delete;
+		Singleton(Singleton const& other) = delete;
 		Singleton(Singleton&& other) = delete;
-		Singleton& operator=(const Singleton& other) = delete;
+		Singleton& operator=(Singleton const& other) = delete;
 		Singleton& operator=(Singleton&& other) = delete;
 
 	protected:
 		Singleton() = default;
 	};
 }
+#endif // !SINGLETON_H

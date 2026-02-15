@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MINIGIN_H
+#define MINIGIN_H
+
 #include <string>
 #include <functional>
 #include <filesystem>
@@ -9,14 +11,14 @@ namespace dae
 	class Minigin final
 	{
 	public:
-		explicit Minigin(const std::filesystem::path& dataPath);
-		~Minigin();
 		void Run(const std::function<void()>& load);
 		void RunOneFrame();
 
-		Minigin(const Minigin& other) = delete;
+		explicit Minigin(std::filesystem::path const& dataPath);
+		~Minigin();
+		Minigin(Minigin const& other) = delete;
 		Minigin(Minigin&& other) = delete;
-		Minigin& operator=(const Minigin& other) = delete;
+		Minigin& operator=(Minigin const& other) = delete;
 		Minigin& operator=(Minigin&& other) = delete;
 	private:
 		static float constexpr m_fixedDeltaTime{ 0.2f };
@@ -26,3 +28,4 @@ namespace dae
 		bool m_quit{};
 	};
 }
+#endif // !MINIGIN_H

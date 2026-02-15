@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+#pragma region Game_Loop
 void dae::SceneManager::FixedUpdate(double fixedDeltaTime)
 {
 	for (auto& scene : m_scenes)
@@ -19,11 +20,12 @@ void dae::SceneManager::Update(double deltaTime)
 
 void dae::SceneManager::Render()
 {
-	for (const auto& scene : m_scenes)
+	for (auto const& scene : m_scenes)
 	{
 		scene->Render();
 	}
 }
+#pragma endregion Game_Loop
 
 dae::Scene& dae::SceneManager::CreateScene()
 {

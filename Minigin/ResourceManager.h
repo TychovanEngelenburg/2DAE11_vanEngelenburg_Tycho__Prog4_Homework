@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿#ifndef RESOURCEMANAGER_H
+#define RESOURCEMANAGER_H
+
 #include <filesystem>
 #include <string>
 #include <memory>
@@ -13,8 +15,9 @@ namespace dae
 	{
 	public:
 		void Init(const std::filesystem::path& data);
-		std::shared_ptr<Texture2D> LoadTexture(const std::string& file);
-		std::shared_ptr<Font> LoadFont(const std::string& file, uint8_t size);
+		std::shared_ptr<Texture2D> LoadTexture( std::string_view file);
+		std::shared_ptr<Font> LoadFont(std::string_view file, uint8_t size);
+
 	private:
 		friend class Singleton<ResourceManager>;
 		ResourceManager() = default;
@@ -27,3 +30,4 @@ namespace dae
 
 	};
 }
+#endif // !RESOURCEMANAGER_H

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TEXTUREOBJECT_H
+#define TEXTUREOBJECT_H
+
 #include <string>
 #include <memory>
 #include "GameObject.h"
@@ -14,16 +16,17 @@ namespace dae
 		void Update(double deltaTime) override;
 		void Render() const override;
 
-		void SetText(const std::string& text);
+		void SetText(std::string_view text);
 		void SetPosition(float x, float y);
-		void SetColor(const SDL_Color& color);
+		void SetColor(SDL_Color const& color);
 
-		TextObject(const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color = { 255, 255, 255, 255 });
+		TextObject(std::string_view text, std::shared_ptr<Font> font, SDL_Color const& color = { 255, 255, 255, 255 });
 		virtual ~TextObject() = default;
-		TextObject(const TextObject& other) = delete;
+		TextObject(TextObject const& other) = delete;
 		TextObject(TextObject&& other) = delete;
-		TextObject& operator=(const TextObject& other) = delete;
+		TextObject& operator=(TextObject const& other) = delete;
 		TextObject& operator=(TextObject&& other) = delete;
+
 	private:
 		bool m_needsUpdate{};
 		std::string m_text{};
@@ -33,3 +36,4 @@ namespace dae
 		std::shared_ptr<Texture2D> m_textTexture{};
 	};
 }
+#endif // !TEXTUREOBJECT_H

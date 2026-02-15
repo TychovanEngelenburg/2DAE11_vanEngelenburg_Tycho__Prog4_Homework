@@ -5,6 +5,7 @@
 
 dae::GameObject::~GameObject() = default;
 
+#pragma region Game_Loop
 void dae::GameObject::Update(double deltaTime)
 {
 	deltaTime; 
@@ -19,11 +20,12 @@ void dae::GameObject::FixedUpdate(double fixedDeltaTime)
 
 void dae::GameObject::Render() const
 {
-	const auto& pos = m_transform.GetPosition();
+	auto const& pos = m_transform.GetPosition();
 	Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
 }
+#pragma endregion
 
-void dae::GameObject::SetTexture(const std::string& filename)
+void dae::GameObject::SetTexture(std::string const& filename)
 {
 	m_texture = ResourceManager::GetInstance().LoadTexture(filename);
 }

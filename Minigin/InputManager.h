@@ -1,6 +1,7 @@
-#pragma once
-#include "Singleton.h"
+#ifndef INPUTMANAGER_H
+#define INPUTMANAGER_H
 
+#include "Singleton.h"
 namespace dae
 {
 	class InputManager final : public Singleton<InputManager>
@@ -10,3 +11,4 @@ namespace dae
 	};
 
 }
+#endif // !INPUTMANAGER_H
