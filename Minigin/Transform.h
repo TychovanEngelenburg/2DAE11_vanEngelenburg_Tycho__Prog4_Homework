@@ -12,6 +12,11 @@ namespace dae
 		const glm::vec3& GetPosition() const { return m_position; }
 		void SetPosition(float x, float y, float z = 0);
 		void SetPosition( glm::vec3 const& position);
+		void Translate(float x, float y, float z = 0);
+		void Translate(glm::vec3 const& difference);
+
+		Transform(glm::vec3 pos);
+
 	private:
 		glm::vec3 m_position;
 	};

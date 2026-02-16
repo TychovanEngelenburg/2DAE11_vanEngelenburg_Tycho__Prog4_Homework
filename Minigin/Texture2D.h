@@ -18,6 +18,7 @@ namespace dae
 
 		explicit Texture2D(SDL_Texture* texture);
 		explicit Texture2D(std::string const& fullPath);
+
 		~Texture2D();
 		Texture2D(Texture2D const&) = delete;
 		Texture2D(Texture2D&&) = delete;
