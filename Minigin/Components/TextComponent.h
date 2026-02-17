@@ -3,7 +3,7 @@
 
 #include <string>
 #include <memory>
-#include "Component.h"
+#include "Components/Component.h"
 #include <cstdint>
 #include <SDL3/SDL_pixels.h>
 

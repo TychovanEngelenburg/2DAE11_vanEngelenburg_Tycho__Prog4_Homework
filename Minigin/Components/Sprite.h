@@ -1,8 +1,8 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include "Component.h"
-#include "Texture2D.h"
+#include "Components/Component.h"
+#include "Types/Texture2D.h"
 #include <memory>
 
 namespace dae

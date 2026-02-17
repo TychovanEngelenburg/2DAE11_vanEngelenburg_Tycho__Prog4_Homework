@@ -1,6 +1,6 @@
-#include "FPS_Display.h"
+#include "Components/FPS_Display.h"
 #include "GameObject.h"
-#include "TextComponent.h"
+#include "Components/TextComponent.h"
 #include <format>
 #include <string>
 #include "DeltaClock.h"

@@ -15,7 +15,6 @@ endif()
 
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
-    Minigin/Font.cpp
     Minigin/GameObject.cpp
     Minigin/InputManager.cpp
     Minigin/Main.cpp
@@ -24,11 +23,16 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
     Minigin/ResourceManager.cpp
     Minigin/Scene.cpp
     Minigin/SceneManager.cpp
-    Minigin/TextComponent.cpp
-    Minigin/Texture2D.cpp
-    Minigin/Transform.cpp
-    Minigin/Sprite.cpp
-    "Minigin/Component.cpp" "Minigin/FPS_Display.cpp" "Minigin/RenderComponent.cpp" "Minigin/DeltaClock.h" "Minigin/DeltaClock.cpp")
+    Minigin/DeltaClock.h 
+    Minigin/DeltaClock.cpp
+    Minigin/Types/Font.cpp
+    Minigin/Types/Texture2D.cpp
+    Minigin/Types/Transform.cpp
+    Minigin/Components/TextComponent.cpp
+    Minigin/Components/Sprite.cpp
+    Minigin/Components/Component.cpp 
+    Minigin/Components/FPS_Display.cpp 
+    Minigin/Components/RenderComponent.cpp) 
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)

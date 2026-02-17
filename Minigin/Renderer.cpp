@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Renderer.h"
 #include "SceneManager.h"
-#include "Texture2D.h"
+#include "Types/Texture2D.h"
 #include <SDL3/SDL_video.h>
 
 void dae::Renderer::Init(SDL_Window* window)

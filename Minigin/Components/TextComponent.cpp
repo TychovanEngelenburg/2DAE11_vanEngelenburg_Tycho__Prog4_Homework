@@ -1,11 +1,11 @@
 ﻿#include <stdexcept>
 #include <SDL3_ttf/SDL_ttf.h>
-#include "TextComponent.h"
+#include "Components/TextComponent.h"
 #include "Renderer.h"
-#include "Font.h"
-#include "Texture2D.h"
+#include "Types/Font.h"
+#include "Types/Texture2D.h"
 #include "GameObject.h"
-#include "Component.h"
+#include "Components/Component.h"
 #include "ResourceManager.h"
 
 void dae::TextComponent::SetText(std::string_view text)

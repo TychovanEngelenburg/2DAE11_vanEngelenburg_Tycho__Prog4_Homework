@@ -2,8 +2,8 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include "ResourceManager.h"
 #include "Renderer.h"
-#include "Texture2D.h"
-#include "Font.h"
+#include "Types/Texture2D.h"
+#include "Types/Font.h"
 #include <filesystem>
 
 void dae::ResourceManager::Init(std::filesystem::path const& dataPath)

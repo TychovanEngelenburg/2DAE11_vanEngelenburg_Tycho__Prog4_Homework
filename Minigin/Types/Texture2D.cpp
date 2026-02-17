@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_surface.h>
-#include "Texture2D.h"
+#include "Types/Texture2D.h"
 #include "Renderer.h"
 
 

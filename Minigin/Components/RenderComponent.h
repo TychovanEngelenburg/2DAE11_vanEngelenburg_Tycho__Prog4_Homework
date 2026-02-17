@@ -1,7 +1,7 @@
 #ifndef RENDERCOMPONENT_H
 #define RENDERCOMPONENT_H
 
-#include "Component.h"
+#include "Components/Component.h"
 
 namespace dae
 {

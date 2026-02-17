@@ -1,4 +1,4 @@
-#include "Component.h"
+#include "Components/Component.h"
 #include "GameObject.h"
 
 void dae::Component::SetOwner(GameObject* gameObject)

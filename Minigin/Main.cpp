@@ -8,11 +8,11 @@
 #include "Minigin.h"
 #include "SceneManager.h"
 
-#include "TextComponent.h"
-#include "FPS_Display.h"
+#include "Components/TextComponent.h"
+#include "Components/FPS_Display.h"
 #include <glm/fwd.hpp>
 #include "Scene.h"
-#include "Sprite.h"
+#include "Components/Sprite.h"
 #include <filesystem>
 #include <utility>
 namespace fs = std::filesystem;

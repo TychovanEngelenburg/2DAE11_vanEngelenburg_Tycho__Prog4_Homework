@@ -2,7 +2,7 @@
 #define FPS_DISPLAY_H
 
 #include <cstdint>
-#include "Component.h"
+#include "Components/Component.h"
 
 namespace dae
 {

@@ -11,8 +11,8 @@
 #include <concepts>
 #include <type_traits>
 
-#include "Transform.h"
-#include "Component.h"
+#include "Types/Transform.h"
+#include "Components/Component.h"
 #include <cassert>
 #include <glm/fwd.hpp>
 #include <algorithm>
