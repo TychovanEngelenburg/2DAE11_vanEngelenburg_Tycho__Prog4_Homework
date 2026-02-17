@@ -1,21 +1,26 @@
-﻿#include <stdexcept>
-#include <sstream>
-#include <iostream>
-
-#if WIN32
+﻿#if WIN32
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
 #endif
 
-#include <SDL3/SDL.h>
-//#include <SDL3_image/SDL_image.h>
-#include <SDL3_ttf/SDL_ttf.h>
 #include "Minigin.h"
+
+#include <filesystem>
+#include <functional>
+#include <memory>
+#include "DeltaClock.h"
+
+#include <stdexcept>
+#include <sstream>
+#include <iostream>
+
+#include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
+
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include <chrono>
 
 SDL_Window* g_window{};
 
@@ -59,39 +64,50 @@ void PrintSDLVersion()
 void dae::Minigin::Run(std::function<void()> const& load)
 {
 	load();
-	m_lastFrameTime = std::chrono::high_resolution_clock::now(); 
 
 #ifndef __EMSCRIPTEN__
 	while (!m_quit)
+	{
 		RunOneFrame();
+	}
 #else
 	emscripten_set_main_loop_arg(&LoopCallback, this, 0, true);
 #endif
+
+	Close();
 }
 
 void dae::Minigin::RunOneFrame()
 {
-		auto const currentTime = std::chrono::high_resolution_clock::now();
-		auto const deltaTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime- m_lastFrameTime);
-		m_lastFrameTime = currentTime;
 
-		m_quit = !InputManager::GetInstance().ProcessInput();
-		
-		m_Lag += deltaTime.count();
-		while (m_Lag >= m_fixedDeltaTime)
-		{
-			SceneManager::GetInstance().FixedUpdate(m_fixedDeltaTime);
-			m_Lag -= m_fixedDeltaTime;
-		}
-		
-		SceneManager::GetInstance().Update(static_cast<double>(deltaTime.count()));
-		
-		Renderer::GetInstance().Render();
+	m_deltaClock->Update();
 
-		// TODO: framerate limiting/possible thread sleep
+	m_quit = !InputManager::GetInstance().ProcessInput();
+	// TODO: Pass input to scene()
+
+	m_lag += DeltaClock::GetDeltaTime();
+	while (m_lag >= DeltaClock::GetFixedDeltaTime())
+	{
+		SceneManager::GetInstance().FixedUpdate();
+		m_lag -= DeltaClock::GetFixedDeltaTime();
+	}
+
+	SceneManager::GetInstance().Update();
+
+	Renderer::GetInstance().Render();
+
+	SceneManager::GetInstance().LateUpdate();
+	ResourceManager::GetInstance().UnloadUnusedResources();
+}
+
+void dae::Minigin::Close()
+{
 }
 
 dae::Minigin::Minigin(std::filesystem::path const& dataPath)
+	: m_deltaClock{ std::make_unique<DeltaClock>() }
+	, m_lag{}
+	, m_quit{ false }
 {
 	PrintSDLVersion();
 

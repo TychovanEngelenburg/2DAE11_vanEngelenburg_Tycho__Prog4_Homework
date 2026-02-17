@@ -15,6 +15,8 @@
 #include "Component.h"
 #include <cassert>
 #include <glm/fwd.hpp>
+#include <algorithm>
+#include <stdexcept>
 
 namespace dae
 {
@@ -24,43 +26,63 @@ namespace dae
 	public:
 
 		Transform const& GetTransform();
+		std::string_view GetName();
+		bool IsDestroyed();
 
 		void SetPosition(float x, float y);
+		void Destroy();
 		//void SetName(std::string_view name);
 
-		template<typename T>
-		void AddComponent(std::unique_ptr<T>);
+		template<typename T, typename... Args>
+		void AddComponent(Args&&... args);
 
 		template<typename T>
 		bool HasComponent();
 
 		template<typename T>
-		auto GetComponent() -> std::optional<T>;
+		auto GetComponent() -> std::optional<T*>;
 
-		std::string_view GetName();
+		template<typename T>
+		void RemoveComponent();
 
-		virtual void Update(double deltaTime);
-		virtual void FixedUpdate(double fixedDeltaTime);
+
+		virtual void Update();
+		virtual void FixedUpdate();
 		virtual void Render() const;
+		virtual void LateUpdate();
 
 		GameObject(std::string_view name, glm::vec3 pos = {0.f, 0.f, 0.f});
+		~GameObject();
+
+		// TODO: Implement Copy and Move constructors
+		GameObject(GameObject const& other) = delete;
+		GameObject(GameObject&& other) = delete;
+
+		GameObject& operator=(GameObject const& other) = delete;
+		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
 		Transform m_transform;
 		std::string m_name;
+		bool m_active;
+		bool m_destroyed;
 		std::unordered_map<std::type_index, std::unique_ptr<Component> > m_components;
 	};
 
 
-	template<typename T>
-	inline void GameObject::AddComponent(std::unique_ptr<T> component)
+	template<typename T, typename... Args>
+	inline void GameObject::AddComponent(Args&&... args)
 	{
 		static_assert(std::derived_from<T, Component>, "Attempted to add a non-component to component list!");
 
+		if (HasComponent<T>())
+		{
+			throw std::runtime_error("Attempted to add duplicate entry to component list!");
+		}
 
-		assert(!HasComponent<T>());
-
-		component->SetOwner(this);
+		auto component{ std::make_unique<T>(std::forward<Args>(args)...) };
+		
+		component->m_gameObject = this;
 		m_components.emplace(std::type_index(typeid(T)), std::move(component));
 	}
 
@@ -71,16 +93,22 @@ namespace dae
 	}
 
 	template<typename T>
-	inline auto GameObject::GetComponent() -> std::optional<T>
+	inline auto GameObject::GetComponent() -> std::optional<T*>
 	{
 		auto it = m_components.find(std::type_index(typeid(T)));
-		if (it != m_components.end)
+		if (it == m_components.end())
 		{
-			return;
+			return {};
 		}
 
 		// Opted to go for static_cast instead of dynamic because type is known and verified existent.
 		return static_cast<T*>(it->second.get());
+	}
+
+	template<typename T>
+	inline void GameObject::RemoveComponent()
+	{
+		m_components.erase(std::type_index(typeid(T)));
 	}
 }
 #endif // !GAMEOBJECT_H

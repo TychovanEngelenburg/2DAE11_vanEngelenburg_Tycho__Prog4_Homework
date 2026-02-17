@@ -26,19 +26,19 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
-void Scene::FixedUpdate(double fixedDeltaTime)
+void Scene::FixedUpdate()
 {
 	for (auto& object : m_objects)
 	{
-		object->Update(fixedDeltaTime);
+		object->FixedUpdate();
 	}
 }
 
-void Scene::Update(double deltaTime)
+void Scene::Update()
 {
 	for(auto& object : m_objects)
 	{
-		object->Update(deltaTime);
+		object->Update();
 	}
 }
 
@@ -48,5 +48,26 @@ void Scene::Render() const
 	{
 		object->Render();
 	}
+}
+
+void dae::Scene::LateUpdate()
+{
+	for (auto objectIt{m_objects.begin()}; objectIt != m_objects.end();)
+	{
+		if (objectIt->get()->IsDestroyed())
+		{
+			m_objects.erase(objectIt);
+		}
+		else
+		{
+			objectIt->get()->LateUpdate();
+			++objectIt;
+		}
+	}
+}
+
+dae::Scene::~Scene()
+{
+	m_objects.clear();
 }
 

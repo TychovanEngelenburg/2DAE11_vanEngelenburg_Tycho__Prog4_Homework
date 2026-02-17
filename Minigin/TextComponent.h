@@ -4,6 +4,8 @@
 #include <string>
 #include <memory>
 #include "Component.h"
+#include <cstdint>
+#include <SDL3/SDL_pixels.h>
 
 namespace dae
 {
@@ -19,12 +21,12 @@ namespace dae
 		void SetOffset(float x, float y);
 		void SetColor(SDL_Color const& color);
 	
-		void Update(double deltaTime) override;
+		void Update() override;
 		void Render() const override;
 
 		TextComponent(std::string_view text, std::string_view fontFile, uint8_t size, SDL_Color const& color = { 255, 255, 255, 255 });
 		
-		virtual ~TextComponent() = default;
+		~TextComponent() override = default;
 		TextComponent(TextComponent const& other) = delete;
 		TextComponent(TextComponent&& other) = delete;
 		TextComponent& operator=(TextComponent const& other) = delete;

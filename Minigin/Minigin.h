@@ -1,10 +1,11 @@
 #ifndef MINIGIN_H
 #define MINIGIN_H
 
-#include <string>
-#include <functional>
 #include <filesystem>
-#include <chrono>
+#include <functional>
+#include <memory>
+
+#include "DeltaClock.h"
 
 namespace dae
 {
@@ -13,6 +14,7 @@ namespace dae
 	public:
 		void Run(const std::function<void()>& load);
 		void RunOneFrame();
+		void Close();
 
 		explicit Minigin(std::filesystem::path const& dataPath);
 		~Minigin();
@@ -21,11 +23,9 @@ namespace dae
 		Minigin& operator=(Minigin const& other) = delete;
 		Minigin& operator=(Minigin&& other) = delete;
 	private:
-		static float constexpr m_fixedDeltaTime{ 0.2f };
-		std::chrono::steady_clock::time_point m_lastFrameTime{}; // TODO: change the way timekeeping is handled.
-		double m_Lag{};
-
-		bool m_quit{};
+		std::unique_ptr<DeltaClock> m_deltaClock;
+		double m_lag;
+		bool m_quit;
 	};
 }
 #endif // !MINIGIN_H

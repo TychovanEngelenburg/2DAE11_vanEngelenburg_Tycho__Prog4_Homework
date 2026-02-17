@@ -1,7 +1,7 @@
 #ifndef FONT_H
 #define FONT_H
 
-#include <string>
+#include <filesystem>
 
 struct TTF_Font;
 namespace dae
@@ -14,7 +14,7 @@ namespace dae
 	public:
 		TTF_Font* GetFont() const;
 
-		explicit Font(std::string const& fullPath, float size);
+		explicit Font(std::filesystem::path const& fullPath, float size);
 		~Font();
 		Font(Font const&) = delete;
 		Font(Font&&) = delete;

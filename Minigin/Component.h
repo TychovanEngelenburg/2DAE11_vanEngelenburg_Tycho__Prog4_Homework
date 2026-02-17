@@ -7,16 +7,26 @@ namespace dae
 	class Component
 	{
 	public:
-		void SetOwner(GameObject* gameObject);
-
-		virtual void FixedUpdate(double fixedDeltaTime);
-		virtual void Update(double deltaTime);
-		virtual void Render() const;
-
-		Component();
+		virtual ~Component() = default;
+		Component(Component const& other) = delete;
+		Component(Component&& other) = delete;
+		Component& operator=(Component const& other) = delete;
+		Component& operator=(Component&& other) = delete;
 
 	protected:
+		friend class GameObject;
+
 		GameObject* m_gameObject;
+		bool m_active;
+
+		void SetOwner(GameObject* gameObject);
+
+		virtual void FixedUpdate();
+		virtual void Update();
+		virtual void Render() const;
+		virtual void LateUpdate() const;
+		Component();
+
 	};
 }
 #endif // !COMPONENT_H

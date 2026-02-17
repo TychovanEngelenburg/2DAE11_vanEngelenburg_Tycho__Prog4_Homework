@@ -1,7 +1,8 @@
+#include <stdexcept>
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_surface.h>
 #include "Texture2D.h"
 #include "Renderer.h"
-#include <stdexcept>
 
 
 glm::vec2 dae::Texture2D::GetSize() const
@@ -16,9 +17,11 @@ SDL_Texture* dae::Texture2D::GetSDLTexture() const
 	return m_texture;
 }
 
-dae::Texture2D::Texture2D(std::string const& fullPath)
+dae::Texture2D::Texture2D(std::filesystem::path const& fullPath)
 {
-	SDL_Surface* surface = SDL_LoadPNG(fullPath.c_str());
+	auto pathStr{ fullPath.string() };
+	SDL_Surface* surface = SDL_LoadPNG(pathStr.c_str());
+
 	if (!surface)
 	{
 		throw std::runtime_error(

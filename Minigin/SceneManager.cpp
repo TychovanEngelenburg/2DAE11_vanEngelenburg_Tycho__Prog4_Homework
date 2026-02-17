@@ -1,20 +1,21 @@
 #include "SceneManager.h"
 #include "Scene.h"
+#include "ResourceManager.h"
 
 #pragma region Game_Loop
-void dae::SceneManager::FixedUpdate(double fixedDeltaTime)
+void dae::SceneManager::FixedUpdate()
 {
 	for (auto& scene : m_scenes)
 	{
-		scene->FixedUpdate(fixedDeltaTime);
+		scene->FixedUpdate();
 	}
 }
 
-void dae::SceneManager::Update(double deltaTime)
+void dae::SceneManager::Update()
 {
 	for(auto& scene : m_scenes)
 	{
-		scene->Update(deltaTime);
+		scene->Update();
 	}
 }
 
@@ -23,6 +24,14 @@ void dae::SceneManager::Render()
 	for (auto const& scene : m_scenes)
 	{
 		scene->Render();
+	}
+}
+
+void dae::SceneManager::LateUpdate()
+{
+	for (auto const& scene : m_scenes)
+	{
+		scene->LateUpdate();
 	}
 }
 #pragma endregion Game_Loop

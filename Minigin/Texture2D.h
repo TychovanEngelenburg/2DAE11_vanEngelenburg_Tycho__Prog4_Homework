@@ -3,7 +3,7 @@
 
 #include <glm/vec2.hpp>
 #include <string>
-
+#include <filesystem>
 struct SDL_Texture;
 namespace dae
 {
@@ -17,7 +17,7 @@ namespace dae
 		glm::vec2 GetSize() const;
 
 		explicit Texture2D(SDL_Texture* texture);
-		explicit Texture2D(std::string const& fullPath);
+		explicit Texture2D(std::filesystem::path const& fullPath);
 
 		~Texture2D();
 		Texture2D(Texture2D const&) = delete;

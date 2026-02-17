@@ -26,11 +26,8 @@ void dae::TextComponent::SetColor(SDL_Color const& color)
 }
 
 #pragma region Game_loop
-void dae::TextComponent::Update(double deltaTime)
+void dae::TextComponent::Update()
 {
-	deltaTime; // Prevent unreferenced parameter warning
-
-
 	if (m_needsUpdate)
 	{
 		auto const surf = TTF_RenderText_Blended(m_font->GetFont(), m_text.c_str(), m_text.length(), m_color);

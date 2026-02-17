@@ -15,11 +15,12 @@ namespace dae
 		void Remove(GameObject const& object);
 		void RemoveAll();
 
-		void FixedUpdate(double fixedDeltaTime);
-		void Update(double deltaTime);
+		void FixedUpdate();
+		void Update();
 		void Render() const;
+		void LateUpdate();
 
-		~Scene() = default;
+		~Scene();
 		Scene(Scene const& other) = delete;
 		Scene(Scene&& other) = delete;
 		Scene& operator=(Scene const& other) = delete;

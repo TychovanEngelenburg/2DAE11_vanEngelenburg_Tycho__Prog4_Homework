@@ -6,21 +6,25 @@ void dae::Component::SetOwner(GameObject* gameObject)
 	m_gameObject = gameObject;
 }
 
-void dae::Component::FixedUpdate(double fixedDeltaTime)
+#pragma region Game_Loop
+void dae::Component::FixedUpdate()
 {
-	fixedDeltaTime; // Prevent unreferenced parameter warning
 }
 
-void dae::Component::Update(double deltaTime)
+void dae::Component::Update()
 {
-	deltaTime; // Prevent unreferenced parameter warning
 }
 
 void dae::Component::Render() const
 {
 }
+void dae::Component::LateUpdate() const
+{
+}
+#pragma endregion Game_Loop
 
 dae::Component::Component()
 	: m_gameObject{}
+	, m_active{true}
 {
 }
