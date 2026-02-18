@@ -22,6 +22,7 @@ SDL_Texture* dae::Texture2D::GetSDLTexture() const noexcept
 }
 
 dae::Texture2D::Texture2D(std::filesystem::path const& filePath)
+	: m_texture{}
 {
 	auto pathStr{ filePath.string() };
 	SDL_Surface* surface = SDL_LoadPNG(pathStr.c_str());
@@ -48,7 +49,8 @@ dae::Texture2D::Texture2D(std::filesystem::path const& filePath)
 	}
 }
 
-dae::Texture2D::Texture2D(SDL_Texture* texture) : m_texture{ texture }
+dae::Texture2D::Texture2D(SDL_Texture* texture) 
+	: m_texture{ texture }
 {
 	assert(m_texture != nullptr);
 }

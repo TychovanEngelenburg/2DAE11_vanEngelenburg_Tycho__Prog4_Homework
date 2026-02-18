@@ -1,0 +1,16 @@
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/CMakeFiles/minigin_web.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/CMakeFiles/edit_cache.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/CMakeFiles/rebuild_cache.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/glm-build/CMakeFiles/edit_cache.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/glm-build/CMakeFiles/rebuild_cache.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/glm-build/glm/CMakeFiles/glm.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/glm-build/glm/CMakeFiles/edit_cache.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/glm-build/glm/CMakeFiles/rebuild_cache.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/sdl3-build/CMakeFiles/SDL3-static.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/sdl3-build/CMakeFiles/SDL3_test.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/sdl3-build/CMakeFiles/SDL_uclibc.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/sdl3-build/CMakeFiles/edit_cache.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/sdl3-build/CMakeFiles/rebuild_cache.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/sdl3_ttf-build/CMakeFiles/SDL3_ttf-static.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/sdl3_ttf-build/CMakeFiles/edit_cache.dir
+C:/Users/tycho/Documents/GitHub/2DAE11_vanEngelenburg_Tycho__Prog4_Homework/_deps/sdl3_ttf-build/CMakeFiles/rebuild_cache.dir

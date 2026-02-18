@@ -11,6 +11,7 @@ TTF_Font* dae::Font::GetFont() const noexcept {
 }
 
 dae::Font::Font(std::filesystem::path const& fullPath, float size) : m_font(nullptr)
+	: m_font{}
 {
 	auto pathString{ fullPath.string()};
 	m_font = TTF_OpenFont(pathString.c_str(), size);
