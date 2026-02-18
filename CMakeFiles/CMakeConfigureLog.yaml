@@ -5433,3 +5433,73 @@ events:
         - "/"
       CMAKE_FIND_ROOT_PATH: "C:/Users/tycho/AppData/Local/emsdk/upstream/emscripten/cache/sysroot"
 ...
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/Platform/Emscripten.cmake:6 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.2/Modules/CMakeSystemSpecificInformation.cmake:32 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "_EMSCRIPTEN_PLATFORM_MODULE"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "Platform/Emscripten.cmake"
+    candidate_directories:
+      - "C:/Users/tycho/AppData/Local/emsdk/upstream/emscripten/cmake/Modules/"
+    found: "C:/Users/tycho/AppData/Local/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Users\\tycho\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files (x86)\\Razer Chroma SDK\\bin"
+        - "C:\\Program Files\\Razer Chroma SDK\\bin"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files\\Microsoft SQL Server\\150\\Tools\\Binn\\"
+        - "C:\\WINDOWS\\system32\\config\\systemprofile\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\Users\\tycho\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\MATLAB\\R2024b\\bin"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Lua\\Lua54"
+        - "C:\\Users\\tycho\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\tycho\\AppData\\Local\\Programs\\Python\\Python314"
+        - "C:\\Users\\tycho\\AppData\\Local\\Muse Hub\\lib"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win32"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win64"
+        - "C:\\Users\\tycho\\AppData\\Local\\emsdk"
+        - "C:\\Users\\tycho\\AppData\\Local\\emsdk\\node\\22.16.0_64bit\\bin"
+        - "C:\\Users\\tycho\\AppData\\Local\\emsdk\\upstream\\emscripten"
+        - "C:\\Users\\tycho\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\tycho\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\tycho\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\tycho\\.dotnet\\tools"
+        - "C:\\Users\\tycho\\AppData\\Local\\Python\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Users/tycho/AppData/Local/emsdk/upstream/emscripten/cache/sysroot"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/"
+      CMAKE_FIND_ROOT_PATH: "C:/Users/tycho/AppData/Local/emsdk/upstream/emscripten/cache/sysroot"
+...
