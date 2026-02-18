@@ -5,7 +5,7 @@
 
 namespace dae
 {
-	class DeltaClock
+	class DeltaClock final
 	{
 	public:
 		static double GetDeltaTime() noexcept;
