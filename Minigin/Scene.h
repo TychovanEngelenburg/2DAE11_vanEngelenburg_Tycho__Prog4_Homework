@@ -15,6 +15,7 @@ namespace dae
 		void Remove(GameObject const& object);
 		void RemoveAll();
 
+		void Start();
 		void FixedUpdate();
 		void Update();
 		void Render() const;

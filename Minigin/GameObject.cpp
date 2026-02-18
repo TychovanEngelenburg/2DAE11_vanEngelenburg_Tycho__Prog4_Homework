@@ -29,6 +29,17 @@ void dae::GameObject::Destroy()
 }
 
 #pragma region Game_Loop
+void dae::GameObject::Start()
+{
+	for (auto& component : m_components)
+	{
+		if (!component.second->m_active)
+		{
+			continue;
+		}
+		component.second->Start();
+	}
+}
 void dae::GameObject::Update()
 {
 	for (auto& component : m_components)

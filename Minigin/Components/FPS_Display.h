@@ -6,9 +6,11 @@
 
 namespace dae
 {
+	class TextComponent;
 	class FPS_Display final : public Component
 	{
 	public:
+		void Start() override;
 		void FixedUpdate() override;
 		void Update() override;
 
@@ -17,8 +19,10 @@ namespace dae
 		void UpdateDisplay();
 
 		static double constexpr m_accuTimePerSec{ 1 };
+		TextComponent* m_textComp;
 		double m_accuTime;
 		double m_frameCount;
+		double m_averageFPS;
 	};
 }
 #endif // !FPS_DISPLAY_H

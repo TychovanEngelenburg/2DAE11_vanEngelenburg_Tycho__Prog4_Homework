@@ -21,10 +21,11 @@ namespace dae
 
 		void SetOwner(GameObject* gameObject);
 
+		virtual void Start();
 		virtual void FixedUpdate();
 		virtual void Update();
 		virtual void Render() const;
-		virtual void LateUpdate() const;
+		virtual void LateUpdate();
 		Component();
 
 	};

@@ -26,6 +26,15 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
+#pragma region Game_Loop
+void dae::Scene::Start()
+{
+	for (auto& object : m_objects)
+	{
+		object->Start();
+	}
+}
+
 void Scene::FixedUpdate()
 {
 	for (auto& object : m_objects)
@@ -65,9 +74,12 @@ void dae::Scene::LateUpdate()
 		}
 	}
 }
+#pragma endregion Game_Loop
 
 dae::Scene::~Scene()
 {
 	m_objects.clear();
 }
+
+
 

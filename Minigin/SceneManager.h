@@ -14,6 +14,7 @@ namespace dae
 	public:
 		Scene& CreateScene();
 
+		void Start();
 		void FixedUpdate();
 		void Update();
 		void Render();

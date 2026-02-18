@@ -7,6 +7,10 @@ void dae::Component::SetOwner(GameObject* gameObject)
 }
 
 #pragma region Game_Loop
+void dae::Component::Start()
+{
+}
+
 void dae::Component::FixedUpdate()
 {
 }
@@ -18,7 +22,7 @@ void dae::Component::Update()
 void dae::Component::Render() const
 {
 }
-void dae::Component::LateUpdate() const
+void dae::Component::LateUpdate()
 {
 }
 #pragma endregion Game_Loop

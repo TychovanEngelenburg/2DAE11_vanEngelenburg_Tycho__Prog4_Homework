@@ -34,22 +34,22 @@ namespace dae
 		//void SetName(std::string_view name);
 
 		template<typename T, typename... Args>
-		void AddComponent(Args&&... args);
+		T& AddComponent(Args&&... args);
 
 		template<typename T>
 		bool HasComponent();
 
 		template<typename T>
-		auto GetComponent() -> std::optional<T*>;
+		T* GetComponent();
 
 		template<typename T>
 		void RemoveComponent();
 
-
-		virtual void Update();
-		virtual void FixedUpdate();
-		virtual void Render() const;
-		virtual void LateUpdate();
+		void Start();
+		void Update();
+		void FixedUpdate();
+		void Render() const;
+		void LateUpdate();
 
 		GameObject(std::string_view name, glm::vec3 pos = {0.f, 0.f, 0.f});
 		~GameObject();
@@ -71,7 +71,7 @@ namespace dae
 
 
 	template<typename T, typename... Args>
-	inline void GameObject::AddComponent(Args&&... args)
+	inline T& GameObject::AddComponent(Args&&... args)
 	{
 		static_assert(std::derived_from<T, Component>, "Attempted to add a non-component to component list!");
 
@@ -81,9 +81,10 @@ namespace dae
 		}
 
 		auto component{ std::make_unique<T>(std::forward<Args>(args)...) };
-		
+		auto& returnRef{ *component };
 		component->m_gameObject = this;
 		m_components.emplace(std::type_index(typeid(T)), std::move(component));
+		return returnRef;
 	}
 
 	template<typename T>
@@ -93,7 +94,7 @@ namespace dae
 	}
 
 	template<typename T>
-	inline auto GameObject::GetComponent() -> std::optional<T*>
+	inline T* GameObject::GetComponent()
 	{
 		auto it = m_components.find(std::type_index(typeid(T)));
 		if (it == m_components.end())

@@ -64,6 +64,8 @@ void PrintSDLVersion()
 void dae::Minigin::Run(std::function<void()> const& load)
 {
 	load();
+	SceneManager::GetInstance().Start();
+
 
 #ifndef __EMSCRIPTEN__
 	while (!m_quit)

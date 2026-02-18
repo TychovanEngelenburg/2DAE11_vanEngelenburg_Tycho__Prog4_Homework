@@ -3,6 +3,14 @@
 #include "ResourceManager.h"
 
 #pragma region Game_Loop
+void dae::SceneManager::Start()
+{
+	for (auto& scene : m_scenes)
+	{
+		scene->Start();
+	}
+}
+
 void dae::SceneManager::FixedUpdate()
 {
 	for (auto& scene : m_scenes)
