@@ -1,9 +1,12 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include <SDL3/SDL.h>
+#include <SDL3/SDL_pixels.h>
+#include <SDL3/SDL_render.h>
+#include <SDL3/SDL_video.h>
 #include "Singleton.h"
 
+// TODO: look into making a different renderer?
 namespace dae
 {
 	class Texture2D;
@@ -13,17 +16,16 @@ namespace dae
 	class Renderer final : public Singleton<Renderer>
 	{
 	public:
-		void Init(SDL_Window* window);
-		void Render() const;
-		void Destroy();
+		const SDL_Color& GetBackgroundColor() const;
+		SDL_Renderer* GetSDLRenderer() const noexcept;
 
 		void RenderTexture(Texture2D const& texture, float x, float y) const;
 		void RenderTexture(Texture2D const& texture, float x, float y, float width, float height) const;
+		void SetBackgroundColor(SDL_Color const& color);
 
-		SDL_Renderer* GetSDLRenderer() const;
-
-		const SDL_Color& GetBackgroundColor() const { return m_clearColor; }
-		void SetBackgroundColor(SDL_Color const& color) { m_clearColor = color; }
+		void Init(SDL_Window* window);
+		void Render() const;
+		void Destroy();
 
 	private:
 		SDL_Renderer* m_renderer{};

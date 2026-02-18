@@ -5,26 +5,33 @@
 
 #include "Minigin.h"
 
-#include <filesystem>
-#include <functional>
-#include <memory>
+#include "InputManager.h"
+#include "SceneManager.h"
+#include "ResourceManager.h"
 #include "DeltaClock.h"
+#include "Renderer.h"
 
 #include <stdexcept>
 #include <sstream>
 #include <iostream>
 
-#include <SDL3/SDL.h>
+#include <SDL3/SDL_error.h>
+#include <SDL3/SDL_init.h>
+#include <SDL3/SDL_log.h>
+#include <SDL3/SDL_version.h>
+#include <SDL3/SDL_video.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
-#include "InputManager.h"
-#include "SceneManager.h"
-#include "Renderer.h"
-#include "ResourceManager.h"
+
+
+// .h includes
+#include <filesystem>
+#include <functional>
+#include <memory>
 
 SDL_Window* g_window{};
 
-void LogSDLVersion(std::string const& message, int major, int minor, int patch)
+static void LogSDLVersion(std::string const& message, int major, int minor, int patch)
 {
 #if WIN32
 	std::stringstream ss;
@@ -76,7 +83,7 @@ void dae::Minigin::Run(std::function<void()> const& load)
 	emscripten_set_main_loop_arg(&LoopCallback, this, 0, true);
 #endif
 
-	Close();
+	SceneManager::GetInstance().End();
 }
 
 void dae::Minigin::RunOneFrame()
@@ -100,10 +107,6 @@ void dae::Minigin::RunOneFrame()
 
 	SceneManager::GetInstance().LateUpdate();
 	ResourceManager::GetInstance().UnloadUnusedResources();
-}
-
-void dae::Minigin::Close()
-{
 }
 
 dae::Minigin::Minigin(std::filesystem::path const& dataPath)

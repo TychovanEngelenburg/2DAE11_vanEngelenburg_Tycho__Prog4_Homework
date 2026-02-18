@@ -5,13 +5,15 @@
 
 namespace dae
 {
-
-
 	class DeltaClock
 	{
 	public:
-		static double GetDeltaTime();
-		static double GetFixedDeltaTime();
+		static double GetDeltaTime() noexcept;
+		static constexpr double GetFixedDeltaTime() noexcept 
+		{
+			static_assert(m_fixedDeltaTime > 0.0, "Deltatime must be a non-zero, positive value!");
+			return m_fixedDeltaTime;
+		};
 
 		void Update();
 

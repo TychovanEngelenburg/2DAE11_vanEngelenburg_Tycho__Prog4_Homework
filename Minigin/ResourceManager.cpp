@@ -1,20 +1,19 @@
-﻿#include <stdexcept>
+﻿#include "ResourceManager.h"
+
+#include <stdexcept>
 #include <SDL3_ttf/SDL_ttf.h>
-#include "ResourceManager.h"
-#include "Renderer.h"
-#include "Types/Texture2D.h"
+
+// .h includes
 #include "Types/Font.h"
+#include "Types/Texture2D.h"
+
 #include <filesystem>
+#include <map>
+#include <memory>
+#include <string>
+#include <cstdint>
+#include <utility>
 
-void dae::ResourceManager::Init(std::filesystem::path const& dataPath)
-{
-	m_dataPath = dataPath;
-
-	if (!TTF_Init())
-	{
-		throw std::runtime_error(std::string("Failed to load support for fonts: ") + SDL_GetError());
-	}
-}
 
 std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(std::filesystem::path const& file)
 {
@@ -68,6 +67,16 @@ void dae::ResourceManager::UnloadUnusedResources()
 		{
 			++it;
 		}
+	}
+}
+
+void dae::ResourceManager::Init(std::filesystem::path const& dataPath)
+{
+	m_dataPath = dataPath;
+
+	if (!TTF_Init())
+	{
+		throw std::runtime_error(std::string("Failed to load support for fonts: ") + SDL_GetError());
 	}
 }
 

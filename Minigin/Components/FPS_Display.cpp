@@ -1,41 +1,38 @@
 #include "Components/FPS_Display.h"
 #include "GameObject.h"
 #include "Components/TextComponent.h"
-#include <format>
-#include <string>
 #include "DeltaClock.h"
 
+#include <format>
+#include <string>
+#include <cassert>
+
+#pragma region Game_Loop
 void dae::FPS_Display::Start()
 {
 	m_textComp = m_gameObject->GetComponent<TextComponent>();
-	assert(m_textComp && "FPS_Display missing TextComponent on GameObject!");
-}
-
-void dae::FPS_Display::FixedUpdate()
-{
+	assert(m_textComp && "FPS_Display requires a TextComponent on it's GameObject!");
 }
 
 void dae::FPS_Display::Update()
 {
-	//m_accuTime += DeltaClock::GetDeltaTime();
-	//++m_frameCount;
-	//if (m_accuTime >= m_accuTimePerSec)
-	//{
-	//	m_averageFPS = 1 / (m_accuTime / m_frameCount);
+	m_accuTime += DeltaClock::GetDeltaTime();
+	++m_frameCount;
+	if (m_accuTime >= m_accuTimePerSec)
+	{
+		m_averageFPS = m_frameCount / m_accuTime;
 
-	//	UpdateDisplay();
-	//	m_accuTime -= m_accuTimePerSec;
-	//	m_frameCount -= m_averageFPS;
-	//}
-
-	m_averageFPS = 1.0 / DeltaClock::GetDeltaTime();
-	UpdateDisplay();
+		UpdateDisplay();
+		m_accuTime -= m_accuTimePerSec;
+		m_frameCount -= m_averageFPS;
+	}
 }
+#pragma endregion Game_Loop
 
 void dae::FPS_Display::UpdateDisplay()
 {
 
-	std::string const fpsText{ std::format("{:.2f}", m_averageFPS) };
+	std::string const fpsText{ std::format("{:.1f} FPS", m_averageFPS) };
 	m_textComp->SetText(fpsText);
 }
 

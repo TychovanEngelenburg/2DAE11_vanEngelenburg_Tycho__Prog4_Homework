@@ -1,21 +1,23 @@
 #ifndef TEXTUREOBJECT_H
 #define TEXTUREOBJECT_H
 
-#include <string>
-#include <memory>
 #include "Components/Component.h"
-#include <cstdint>
+#include "Types/Font.h"
+#include "Types/Texture2D.h"
+
+#include <string>
+#include <string_view>
+#include <memory>
 #include <SDL3/SDL_pixels.h>
+#include <cstdint>
+#include <filesystem>
 
 namespace dae
 {
-	class Font;
-	class Texture2D;
 	class TextComponent final : public Component
 	{
 	public:
-
-		std::string GetText();
+		std::string_view GetText() const noexcept;
 
 		void SetText(std::string_view text);
 		void SetOffset(float x, float y);
@@ -24,7 +26,7 @@ namespace dae
 		void Update() override;
 		void Render() const override;
 
-		TextComponent(std::string_view text, std::string_view fontFile, uint8_t size, SDL_Color const& color = { 255, 255, 255, 255 });
+		TextComponent(std::string_view text, std::filesystem::path const& fontFile, uint8_t size, SDL_Color const& color = { 255, 255, 255, 255 });
 		
 		~TextComponent() override = default;
 		TextComponent(TextComponent const& other) = delete;

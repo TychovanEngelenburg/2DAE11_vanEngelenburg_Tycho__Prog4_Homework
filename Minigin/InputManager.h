@@ -2,6 +2,7 @@
 #define INPUTMANAGER_H
 
 #include "Singleton.h"
+
 namespace dae
 {
 	class InputManager final : public Singleton<InputManager>
@@ -9,6 +10,5 @@ namespace dae
 	public:
 		bool ProcessInput();
 	};
-
 }
 #endif // !INPUTMANAGER_H

@@ -1,6 +1,10 @@
 #include "SceneManager.h"
+
+// .h includes
 #include "Scene.h"
-#include "ResourceManager.h"
+
+#include <memory>
+#include <vector>
 
 #pragma region Game_Loop
 void dae::SceneManager::Start()
@@ -27,7 +31,7 @@ void dae::SceneManager::Update()
 	}
 }
 
-void dae::SceneManager::Render()
+void dae::SceneManager::Render() const
 {
 	for (auto const& scene : m_scenes)
 	{
@@ -42,10 +46,19 @@ void dae::SceneManager::LateUpdate()
 		scene->LateUpdate();
 	}
 }
+
+void dae::SceneManager::End()
+{
+	for (auto const& scene : m_scenes)
+	{
+		scene->End();
+	}
+}
 #pragma endregion Game_Loop
 
 dae::Scene& dae::SceneManager::CreateScene()
 {
+	// TODO: Look into why std::make_unique<Scene>() doesn't work here.
 	m_scenes.emplace_back(new Scene());
 	return *m_scenes.back();
 }

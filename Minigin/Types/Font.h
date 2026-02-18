@@ -4,6 +4,7 @@
 #include <filesystem>
 
 struct TTF_Font;
+
 namespace dae
 {
 	/**
@@ -12,7 +13,7 @@ namespace dae
 	class Font final
 	{
 	public:
-		TTF_Font* GetFont() const;
+		TTF_Font* GetFont() const noexcept;
 
 		explicit Font(std::filesystem::path const& fullPath, float size);
 		~Font();

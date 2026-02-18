@@ -2,7 +2,6 @@
 #define SCENE_H
 
 #include <memory>
-#include <string>
 #include <vector>
 #include "GameObject.h"
 
@@ -11,6 +10,7 @@ namespace dae
 	class Scene final
 	{
 	public:
+		// TODO: Look if it would be better to implement similar to addcomponent.
 		void Add(std::unique_ptr<GameObject> object);
 		void Remove(GameObject const& object);
 		void RemoveAll();
@@ -20,6 +20,7 @@ namespace dae
 		void Update();
 		void Render() const;
 		void LateUpdate();
+		void End();
 
 		~Scene();
 		Scene(Scene const& other) = delete;

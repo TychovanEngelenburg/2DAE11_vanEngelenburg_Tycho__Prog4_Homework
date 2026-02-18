@@ -1,9 +1,12 @@
+#include "Types/Font.h"
+
 #include <stdexcept>
 #include <SDL3_ttf/SDL_ttf.h>
-#include "Types/Font.h"
+
+// .h includes
 #include <filesystem>
 
-TTF_Font* dae::Font::GetFont() const {
+TTF_Font* dae::Font::GetFont() const noexcept {
 	return m_font;
 }
 

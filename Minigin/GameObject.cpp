@@ -1,19 +1,24 @@
-#include <string>
 #include "GameObject.h"
-#include "ResourceManager.h"
-#include "Renderer.h"
 
-dae::Transform const& dae::GameObject::GetTransform()
+// .h includes
+#include "Components/Component.h"
+#include "Types/Transform.h"
+
+#include <string_view>
+#include <memory>
+#include <glm/fwd.hpp>
+
+dae::Transform const& dae::GameObject::GetTransform() const noexcept
 {
 	return m_transform;
 }
 
-std::string_view dae::GameObject::GetName()
+std::string_view dae::GameObject::GetName() const noexcept
 {
 	return m_name;
 }
 
-bool dae::GameObject::IsDestroyed()
+bool dae::GameObject::IsDestroyed() const noexcept
 {
 	return m_destroyed;
 }
@@ -33,10 +38,6 @@ void dae::GameObject::Start()
 {
 	for (auto& component : m_components)
 	{
-		if (!component.second->m_active)
-		{
-			continue;
-		}
 		component.second->Start();
 	}
 }
@@ -87,6 +88,14 @@ void dae::GameObject::LateUpdate()
 		component.second->LateUpdate();
 	}
 }
+
+void dae::GameObject::End()
+{
+	for (auto& component : m_components)
+	{
+		component.second->End();
+	}
+}
 #pragma endregion
 
 dae::GameObject::GameObject(std::string_view name, glm::vec3 pos)
@@ -103,4 +112,3 @@ dae::GameObject::~GameObject()
 {
 	m_components.clear();
 }
-

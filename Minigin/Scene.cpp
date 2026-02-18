@@ -1,15 +1,21 @@
-#include <algorithm>
 #include "Scene.h"
 
-using namespace dae;
+#include <algorithm>
+#include <cassert>
 
-void Scene::Add(std::unique_ptr<GameObject> object)
+// .h includes
+#include <memory>
+#include <vector>
+#include "GameObject.h"
+
+
+void dae::Scene::Add(std::unique_ptr<GameObject> object)
 {
 	assert(object != nullptr && "Cannot add a null GameObject to the scene.");
 	m_objects.emplace_back(std::move(object));
 }
 
-void Scene::Remove(GameObject const& object)
+void dae::Scene::Remove(GameObject const& object)
 {
 	m_objects.erase(
 		std::remove_if(
@@ -21,7 +27,7 @@ void Scene::Remove(GameObject const& object)
 	);
 }
 
-void Scene::RemoveAll()
+void dae::Scene::RemoveAll()
 {
 	m_objects.clear();
 }
@@ -35,7 +41,7 @@ void dae::Scene::Start()
 	}
 }
 
-void Scene::FixedUpdate()
+void dae::Scene::FixedUpdate()
 {
 	for (auto& object : m_objects)
 	{
@@ -43,7 +49,7 @@ void Scene::FixedUpdate()
 	}
 }
 
-void Scene::Update()
+void dae::Scene::Update()
 {
 	for(auto& object : m_objects)
 	{
@@ -51,7 +57,7 @@ void Scene::Update()
 	}
 }
 
-void Scene::Render() const
+void dae::Scene::Render() const
 {
 	for (auto const& object : m_objects)
 	{
@@ -74,12 +80,17 @@ void dae::Scene::LateUpdate()
 		}
 	}
 }
+
+void dae::Scene::End()
+{
+	for (auto const& object : m_objects)
+	{
+		object->End();
+	}
+}
 #pragma endregion Game_Loop
 
 dae::Scene::~Scene()
 {
 	m_objects.clear();
 }
-
-
-

@@ -19,13 +19,12 @@ namespace dae
 		GameObject* m_gameObject;
 		bool m_active;
 
-		void SetOwner(GameObject* gameObject);
-
 		virtual void Start();
 		virtual void FixedUpdate();
 		virtual void Update();
 		virtual void Render() const;
 		virtual void LateUpdate();
+		virtual void End();
 		Component();
 
 	};

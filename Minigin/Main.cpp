@@ -1,4 +1,3 @@
-#include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
 #if _DEBUG && __has_include(<vld.h>)
@@ -7,16 +6,19 @@
 
 #include "Minigin.h"
 #include "SceneManager.h"
+#include "Scene.h"
 
+#include "GameObject.h"
 #include "Components/TextComponent.h"
 #include "Components/FPS_Display.h"
-#include <glm/fwd.hpp>
-#include "Scene.h"
 #include "Components/Sprite.h"
+
+#include <glm/fwd.hpp>
 #include <filesystem>
 #include <utility>
-namespace fs = std::filesystem;
+#include <memory>
 
+// TODO: When engine becomes a library this should be handled externally.
 static void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene();
@@ -54,10 +56,10 @@ static void load()
 int main(int, char* [])
 {
 #if __EMSCRIPTEN__
-	fs::path data_location = "";
+	std::filesystem::path data_location = "";
 #else
-	fs::path data_location = "./Data/";
-	if (!fs::exists(data_location))
+	std::filesystem::path data_location = "./Data/";
+	if (!std::filesystem::exists(data_location))
 		data_location = "../Data/";
 #endif
 	dae::Minigin engine(data_location);

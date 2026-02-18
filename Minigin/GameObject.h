@@ -1,19 +1,15 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
+#include "Components/Component.h"
+#include "Types/Transform.h"
+
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <memory>
 #include <typeindex>
-#include <typeinfo>
-#include <optional>
-
 #include <concepts>
-#include <type_traits>
-
-#include "Types/Transform.h"
-#include "Components/Component.h"
-#include <cassert>
 #include <glm/fwd.hpp>
 #include <algorithm>
 #include <stdexcept>
@@ -24,10 +20,9 @@ namespace dae
 	class GameObject final
 	{
 	public:
-
-		Transform const& GetTransform();
-		std::string_view GetName();
-		bool IsDestroyed();
+		Transform const& GetTransform() const noexcept;
+		std::string_view GetName() const noexcept;
+		bool IsDestroyed() const noexcept;
 
 		void SetPosition(float x, float y);
 		void Destroy();
@@ -37,10 +32,10 @@ namespace dae
 		T& AddComponent(Args&&... args);
 
 		template<typename T>
-		bool HasComponent();
+		bool HasComponent() const;
 
 		template<typename T>
-		T* GetComponent();
+		T* GetComponent() const;
 
 		template<typename T>
 		void RemoveComponent();
@@ -50,6 +45,7 @@ namespace dae
 		void FixedUpdate();
 		void Render() const;
 		void LateUpdate();
+		void End();
 
 		GameObject(std::string_view name, glm::vec3 pos = {0.f, 0.f, 0.f});
 		~GameObject();
@@ -88,13 +84,13 @@ namespace dae
 	}
 
 	template<typename T>
-	inline bool GameObject::HasComponent()
+	inline bool GameObject::HasComponent() const
 	{
 		return m_components.contains(std::type_index(typeid(T)));
 	}
 
 	template<typename T>
-	inline T* GameObject::GetComponent()
+	inline T* GameObject::GetComponent() const
 	{
 		auto it = m_components.find(std::type_index(typeid(T)));
 		if (it == m_components.end())

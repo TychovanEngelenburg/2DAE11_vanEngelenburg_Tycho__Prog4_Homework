@@ -1,12 +1,23 @@
-﻿#include <stdexcept>
-#include <SDL3_ttf/SDL_ttf.h>
-#include "Components/TextComponent.h"
+﻿#include "Components/TextComponent.h"
+#include "GameObject.h"
 #include "Renderer.h"
+#include "ResourceManager.h"
+
+#include <stdexcept>
+#include <SDL3_ttf/SDL_ttf.h>
+#include <SDL3/SDL_surface.h>
+
+// .h includes
+#include "Components/Component.h"
 #include "Types/Font.h"
 #include "Types/Texture2D.h"
-#include "GameObject.h"
-#include "Components/Component.h"
-#include "ResourceManager.h"
+
+#include <string>
+#include <string_view>
+#include <memory>
+#include <SDL3/SDL_pixels.h>
+#include <filesystem>
+#include <cstdint>
 
 void dae::TextComponent::SetText(std::string_view text)
 {
@@ -56,14 +67,14 @@ void dae::TextComponent::Render() const
 		Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
 	}
 }
-std::string dae::TextComponent::GetText()
+std::string_view dae::TextComponent::GetText() const noexcept
 {
 	return m_text;
 }
 #pragma endregion Game_loop
 
 
-dae::TextComponent::TextComponent(std::string_view text, std::string_view fontFile, uint8_t size, SDL_Color const& color)
+dae::TextComponent::TextComponent(std::string_view text, std::filesystem::path const& fontFile, uint8_t size, SDL_Color const& color)
 	: Component()
 	, m_needsUpdate(true)
 	, m_text(text)

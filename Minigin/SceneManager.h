@@ -1,14 +1,14 @@
 #ifndef SCENEMANAGER_H
 #define SCENEMANAGER_H
-#include <vector>
-#include <string>
-#include <memory>
-#include "Scene.h"
+
 #include "Singleton.h"
+#include "Scene.h"
+
+#include <memory>
+#include <vector>
 
 namespace dae
 {
-	class Scene;
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
@@ -17,11 +17,13 @@ namespace dae
 		void Start();
 		void FixedUpdate();
 		void Update();
-		void Render();
+		void Render() const;
 		void LateUpdate();
+		void End();
 
 	private:
 		friend class Singleton<SceneManager>;
+
 		SceneManager() = default;
 		std::vector<std::unique_ptr<Scene>> m_scenes{};
 	};

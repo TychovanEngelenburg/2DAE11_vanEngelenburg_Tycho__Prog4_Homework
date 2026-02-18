@@ -1,9 +1,52 @@
-﻿#include <stdexcept>
-#include <iostream>
-#include "Renderer.h"
+﻿#include "Renderer.h"
 #include "SceneManager.h"
 #include "Types/Texture2D.h"
+
 #include <SDL3/SDL_video.h>
+#include <stdexcept>
+#include <iostream>
+#include <SDL3/SDL_hints.h>
+#include <SDL3/SDL_rect.h>
+
+// .h includes
+#include <SDL3/SDL_pixels.h>
+#include <SDL3/SDL_render.h>
+#include "Singleton.h"
+
+SDL_Renderer* dae::Renderer::GetSDLRenderer() const noexcept
+{
+	return m_renderer;
+}
+
+const SDL_Color& dae::Renderer::GetBackgroundColor() const
+{
+	return m_clearColor;
+}
+
+
+void dae::Renderer::RenderTexture(Texture2D const& texture, float const x, float const y) const
+{
+	SDL_FRect dst{};
+	dst.x = x;
+	dst.y = y;
+	SDL_GetTextureSize(texture.GetSDLTexture(), &dst.w, &dst.h);
+	SDL_RenderTexture(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+}
+
+void dae::Renderer::RenderTexture(Texture2D const& texture, float const x, float const y, float const width, float const height) const
+{
+	SDL_FRect dst{};
+	dst.x = x;
+	dst.y = y;
+	dst.w = width;
+	dst.h = height;
+	SDL_RenderTexture(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+}
+
+void dae::Renderer::SetBackgroundColor(SDL_Color const& color)
+{
+	m_clearColor = color;
+}
 
 void dae::Renderer::Init(SDL_Window* window)
 {
@@ -43,24 +86,3 @@ void dae::Renderer::Destroy()
 		m_renderer = nullptr;
 	}
 }
-
-void dae::Renderer::RenderTexture(Texture2D const& texture, float const x, float const y) const
-{
-	SDL_FRect dst{};
-	dst.x = x;
-	dst.y = y;
-	SDL_GetTextureSize(texture.GetSDLTexture(), &dst.w, &dst.h);
-	SDL_RenderTexture(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
-}
-
-void dae::Renderer::RenderTexture(Texture2D const& texture, float const x, float const y, float const width, float const height) const
-{
-	SDL_FRect dst{};
-	dst.x = x;
-	dst.y = y;
-	dst.w = width;
-	dst.h = height;
-	SDL_RenderTexture(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
-}
-
-SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_renderer; }

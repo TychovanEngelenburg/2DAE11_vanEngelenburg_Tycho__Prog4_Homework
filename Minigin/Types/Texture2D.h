@@ -1,9 +1,11 @@
 ﻿#ifndef TEXTURE2D_H
 #define TEXTURE2D_H
 
-#include <glm/vec2.hpp>
-#include <string>
 #include <filesystem>
+
+#include <glm/ext/vector_float2.hpp>
+#include <glm/fwd.hpp>
+
 struct SDL_Texture;
 namespace dae
 {
@@ -13,7 +15,7 @@ namespace dae
 	class Texture2D final
 	{
 	public:
-		SDL_Texture* GetSDLTexture() const;
+		SDL_Texture* GetSDLTexture() const noexcept;
 		glm::vec2 GetSize() const;
 
 		explicit Texture2D(SDL_Texture* texture);

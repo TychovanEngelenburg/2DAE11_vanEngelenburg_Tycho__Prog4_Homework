@@ -1,11 +1,11 @@
 #ifndef MINIGIN_H
 #define MINIGIN_H
 
+#include "DeltaClock.h"
+
 #include <filesystem>
 #include <functional>
 #include <memory>
-
-#include "DeltaClock.h"
 
 namespace dae
 {
@@ -14,7 +14,6 @@ namespace dae
 	public:
 		void Run(const std::function<void()>& load);
 		void RunOneFrame();
-		void Close();
 
 		explicit Minigin(std::filesystem::path const& dataPath);
 		~Minigin();

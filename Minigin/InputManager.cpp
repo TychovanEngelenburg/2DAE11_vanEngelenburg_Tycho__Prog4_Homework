@@ -1,5 +1,9 @@
-#include <SDL3/SDL.h>
 #include "InputManager.h"
+
+#include <SDL3/SDL_events.h>
+
+// .h includes
+#include "Singleton.h"
 
 bool dae::InputManager::ProcessInput()
 {
