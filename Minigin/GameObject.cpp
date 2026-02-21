@@ -38,18 +38,18 @@ void dae::GameObject::Start()
 {
 	for (auto& component : m_components)
 	{
-		component.second->Start();
+		component->Start();
 	}
 }
 void dae::GameObject::Update()
 {
 	for (auto& component : m_components)
 	{
-		if (!component.second->m_active)
+		if (!component->IsActive())
 		{
 			continue;
 		}
-		component.second->Update();
+		component->Update();
 	}
 }
 
@@ -57,11 +57,11 @@ void dae::GameObject::FixedUpdate()
 {
 	for (auto& component : m_components)
 	{
-		if (!component.second->m_active)
+		if (!component->IsActive())
 		{
 			continue;
 		}
-		component.second->FixedUpdate();
+		component->FixedUpdate();
 	}
 }
 
@@ -69,11 +69,11 @@ void dae::GameObject::Render() const
 {
 	for (auto& component : m_components)
 	{
-		if (!component.second->m_active)
+		if (!component->IsActive())
 		{
 			continue;
 		}
-		component.second->Render();
+		component->Render();
 	}
 }
 
@@ -81,11 +81,11 @@ void dae::GameObject::LateUpdate()
 {
 	for (auto& component : m_components)
 	{
-		if (!component.second->m_active)
+		if (!component->IsActive())
 		{
 			continue;
 		}
-		component.second->LateUpdate();
+		component->LateUpdate();
 	}
 }
 
@@ -93,7 +93,7 @@ void dae::GameObject::End()
 {
 	for (auto& component : m_components)
 	{
-		component.second->End();
+		component->End();
 	}
 }
 #pragma endregion

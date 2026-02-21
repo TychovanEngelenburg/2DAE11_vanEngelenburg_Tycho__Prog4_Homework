@@ -6,6 +6,8 @@
 #include <stdexcept>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3/SDL_surface.h>
+#include <SDL3/SDL_error.h>
+#include <SDL3/SDL_render.h>
 
 // .h includes
 #include "Components/Component.h"
@@ -27,7 +29,7 @@ void dae::TextComponent::SetText(std::string_view text)
 
 void dae::TextComponent::SetOffset(float x, float y)
 {
-	m_gameObject->SetPosition(x, y);
+	GetOwner()->SetPosition(x, y);
 }
 
 void dae::TextComponent::SetColor(SDL_Color const& color)
@@ -61,9 +63,9 @@ void dae::TextComponent::Update()
 
 void dae::TextComponent::Render() const
 {
-	if (m_textTexture != nullptr)
+	if (m_textTexture)
 	{
-		auto const& pos = m_gameObject->GetTransform().GetPosition();
+		auto const& pos = GetOwner()->GetTransform().GetPosition();
 		Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
 	}
 }
@@ -74,8 +76,8 @@ std::string_view dae::TextComponent::GetText() const noexcept
 #pragma endregion Game_loop
 
 
-dae::TextComponent::TextComponent(std::string_view text, std::filesystem::path const& fontFile, uint8_t size, SDL_Color const& color)
-	: Component()
+dae::TextComponent::TextComponent(GameObject& owner, std::string_view text, std::filesystem::path const& fontFile, uint8_t size, SDL_Color const& color)
+	: Component(owner)
 	, m_needsUpdate(true)
 	, m_text(text)
 	, m_color(color)

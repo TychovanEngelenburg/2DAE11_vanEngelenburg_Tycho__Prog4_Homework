@@ -7,15 +7,20 @@
 #include <string>
 #include <cassert>
 
+// .h includes
+#include "Components/Component.h"
+
 #pragma region Game_Loop
 void dae::FPS_Display::Start()
 {
-	m_textComp = m_gameObject->GetComponent<TextComponent>();
+	m_textComp = GetOwner()->GetComponent<TextComponent>();
 	assert(m_textComp && "FPS_Display requires a TextComponent on it's GameObject!");
 }
 
 void dae::FPS_Display::Update()
 {
+	static double constexpr m_accuTimePerSec{ 1 };
+
 	m_accuTime += DeltaClock::GetDeltaTime();
 	++m_frameCount;
 	if (m_accuTime >= m_accuTimePerSec)
@@ -31,13 +36,12 @@ void dae::FPS_Display::Update()
 
 void dae::FPS_Display::UpdateDisplay()
 {
-
 	std::string const fpsText{ std::format("{:.1f} FPS", m_averageFPS) };
 	m_textComp->SetText(fpsText);
 }
 
-dae::FPS_Display::FPS_Display()
-	: Component()
+dae::FPS_Display::FPS_Display(GameObject& owner)
+	: Component(owner)
 	, m_textComp{}
 	, m_accuTime{}
 	, m_frameCount{}

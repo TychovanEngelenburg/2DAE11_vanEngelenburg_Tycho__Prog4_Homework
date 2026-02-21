@@ -14,6 +14,7 @@
 
 namespace dae
 {
+	class GameObject;
 	class TextComponent final : public Component
 	{
 	public:
@@ -26,7 +27,7 @@ namespace dae
 		void Update() override;
 		void Render() const override;
 
-		TextComponent(std::string_view text, std::filesystem::path const& fontFile, uint8_t size, SDL_Color const& color = { 255, 255, 255, 255 });
+		TextComponent(GameObject& owner, std::string_view text, std::filesystem::path const& fontFile, uint8_t size, SDL_Color const& color = { 255, 255, 255, 255 });
 		
 		~TextComponent() override = default;
 		TextComponent(TextComponent const& other) = delete;

@@ -1,4 +1,15 @@
 #include "Components/Component.h"
+#include "GameObject.h"
+
+dae::GameObject* dae::Component::GetOwner() const noexcept
+{
+	return m_owner;
+}
+
+bool dae::Component::IsActive() const noexcept
+{
+	return m_active;
+}
 
 #pragma region Game_Loop
 void dae::Component::Start() {}
@@ -14,8 +25,8 @@ void dae::Component::LateUpdate() {}
 void dae::Component::End() {}
 #pragma endregion Game_Loop
 
-dae::Component::Component()
-	: m_gameObject{}
+dae::Component::Component(GameObject& owner)
+	: m_owner{ &owner }
 	, m_active{ true }
 {
 }

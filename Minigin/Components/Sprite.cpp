@@ -6,7 +6,6 @@
 
 // .h includes
 #include "Components/Component.h"
-#include "Types/Texture2D.h"
 #include <memory>
 #include <filesystem>
 
@@ -19,11 +18,13 @@ void dae::Sprite::SetTexture(std::filesystem::path const& filePath)
 #pragma region Game_Loop
 void dae::Sprite::Render() const
 {
-	auto const& pos{ m_gameObject->GetTransform().GetPosition() };
+	auto const& pos{ GetOwner()->GetTransform().GetPosition()};
 	Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
 }
-dae::Sprite::Sprite(std::filesystem::path const& filePath)
-	: m_texture{ ResourceManager::GetInstance().LoadTexture(filePath) }
+
+dae::Sprite::Sprite(GameObject& owner, std::filesystem::path const& filePath)
+	: Component(owner)
+	, m_texture{ ResourceManager::GetInstance().LoadTexture(filePath) }
 {
 }
 #pragma endregion Game_Loop

@@ -7,17 +7,8 @@ namespace dae
 	class Component
 	{
 	public:
-		virtual ~Component() = default;
-		Component(Component const& other) = delete;
-		Component(Component&& other) = delete;
-		Component& operator=(Component const& other) = delete;
-		Component& operator=(Component&& other) = delete;
-
-	protected:
-		friend class GameObject;
-
-		GameObject* m_gameObject;
-		bool m_active;
+		GameObject* GetOwner() const noexcept;
+		bool IsActive() const noexcept;
 
 		virtual void Start();
 		virtual void FixedUpdate();
@@ -25,8 +16,20 @@ namespace dae
 		virtual void Render() const;
 		virtual void LateUpdate();
 		virtual void End();
-		Component();
 
+
+		virtual ~Component() = default;
+		Component(Component const& other) = delete;
+		Component(Component&& other) = delete;
+		Component& operator=(Component const& other) = delete;
+		Component& operator=(Component&& other) = delete;
+
+	protected:
+		Component(GameObject& owner);
+
+	private:
+		GameObject* m_owner;
+		bool m_active;
 	};
 }
 #endif // !COMPONENT_H

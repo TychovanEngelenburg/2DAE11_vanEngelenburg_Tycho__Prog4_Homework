@@ -6,13 +6,14 @@
 
 #include <string>
 #include <string_view>
-#include <unordered_map>
 #include <memory>
 #include <typeindex>
 #include <concepts>
 #include <glm/fwd.hpp>
 #include <algorithm>
 #include <stdexcept>
+#include <utility>
+#include <vector>
 
 namespace dae
 {
@@ -31,8 +32,9 @@ namespace dae
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args);
 
-		template<typename T>
-		bool HasComponent() const;
+		// Removed because functionally no improvement over GetComponent in it's current state.
+		//template<typename T>
+		//bool HasComponent() const;
 
 		template<typename T>
 		T* GetComponent() const;
@@ -62,7 +64,8 @@ namespace dae
 		std::string m_name;
 		bool m_active;
 		bool m_destroyed;
-		std::unordered_map<std::type_index, std::unique_ptr<Component> > m_components;
+		//std::unordered_map<std::type_index, std::unique_ptr<Component> > m_components;
+		std::vector< std::unique_ptr<Component>> m_components;
 	};
 
 
@@ -71,41 +74,61 @@ namespace dae
 	{
 		static_assert(std::derived_from<T, Component>, "Attempted to add a non-component to component list!");
 
-		if (HasComponent<T>())
+		if (GetComponent<T>())
 		{
 			throw std::runtime_error("Attempted to add duplicate entry to component list!");
 		}
 
-		auto component{ std::make_unique<T>(std::forward<Args>(args)...) };
+		auto component{ std::make_unique<T>(*this, std::forward<Args>(args)...) };
 		auto& returnRef{ *component };
-		component->m_gameObject = this;
-		m_components.emplace(std::type_index(typeid(T)), std::move(component));
+		m_components.emplace_back(std::move(component));
 		return returnRef;
 	}
 
-	template<typename T>
-	inline bool GameObject::HasComponent() const
-	{
-		return m_components.contains(std::type_index(typeid(T)));
-	}
+	
+	//template<typename T>
+	//inline bool GameObject::HasComponent() const
+	//{
+	//	for (auto& component : m_components)
+	//	{
+	//		if (component.GetType() == std::type_index(typeid(T)))
+	//		{
+	//			return true;
+	//		}
+	//	}
+
+	//	return false;
+	//}
 
 	template<typename T>
 	inline T* GameObject::GetComponent() const
 	{
-		auto it = m_components.find(std::type_index(typeid(T)));
-		if (it == m_components.end())
+
+		// Opted for dynamic cast over component.h having a GetType() option,
+		// since working with std::type_index is (as far as I can tell) slower than dynamic_cast.
+
+		for (auto& component : m_components)
 		{
-			return {};
+			if (auto compPtr{ dynamic_cast<T*>(component.get()) })
+			{
+				return compPtr;
+			}
 		}
 
-		// Opted to go for static_cast instead of dynamic because type is known and verified existent.
-		return static_cast<T*>(it->second.get());
+		return nullptr;
 	}
 
 	template<typename T>
 	inline void GameObject::RemoveComponent()
 	{
-		m_components.erase(std::type_index(typeid(T)));
+		for (auto& component : m_components)
+		{
+			if (component.GetType() == std::type_index(typeid(T)))
+			{
+				m_components.erase(component);
+				return;
+			}
+		}
 	}
 }
 #endif // !GAMEOBJECT_H

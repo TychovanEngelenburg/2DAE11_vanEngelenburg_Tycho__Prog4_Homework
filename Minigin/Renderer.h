@@ -27,6 +27,12 @@ namespace dae
 		void Render() const;
 		void Destroy();
 
+		//~Renderer() override = default;
+		//Renderer(Renderer const& other) = delete;
+		//Renderer(Renderer&& other) = delete;
+		//Renderer& operator=(Renderer const& other) = delete;
+		//Renderer& operator=(Renderer&& other) = delete;
+
 	private:
 		SDL_Renderer* m_renderer{};
 		SDL_Window* m_window{};

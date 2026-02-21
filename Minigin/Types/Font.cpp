@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <string>
+#include <SDL3/SDL_error.h>
 
 // .h includes
 #include <filesystem>

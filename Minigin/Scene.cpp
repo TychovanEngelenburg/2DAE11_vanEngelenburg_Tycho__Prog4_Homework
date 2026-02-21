@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <utility>
 
 // .h includes
 #include <memory>
@@ -67,17 +68,19 @@ void dae::Scene::Render() const
 
 void dae::Scene::LateUpdate()
 {
-	for (auto objectIt{m_objects.begin()}; objectIt != m_objects.end();)
+
+	for (auto const& object : m_objects)
 	{
-		if (objectIt->get()->IsDestroyed())
+		object->LateUpdate();
+		if (object->IsDestroyed())
 		{
-			m_objects.erase(objectIt);
+			m_deletionList.push_back(object.get());
 		}
-		else
-		{
-			objectIt->get()->LateUpdate();
-			++objectIt;
-		}
+	}
+
+	for (auto const object : m_deletionList)
+	{
+		this->Remove(*object);
 	}
 }
 

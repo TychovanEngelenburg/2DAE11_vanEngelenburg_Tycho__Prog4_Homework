@@ -9,6 +9,7 @@
 
 namespace dae
 {
+	class GameObject;
 	class Sprite final : public Component
 	{
 	public:
@@ -17,7 +18,7 @@ namespace dae
 
 		void Render() const override;
 
-		Sprite(std::filesystem::path const& filename);
+		Sprite(GameObject& owner, std::filesystem::path const& filename);
 		~Sprite() override = default;
 		Sprite(Sprite const& other) = delete;
 		Sprite(Sprite&& other) = delete;
