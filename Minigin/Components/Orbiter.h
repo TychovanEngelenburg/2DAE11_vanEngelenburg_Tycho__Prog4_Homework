@@ -11,7 +11,7 @@ namespace dae
 	class Orbiter final : public Component
 	{
 	public:
-		void FixedUpdate();
+		void FixedUpdate() override;
 
 		Orbiter(GameObject& owner, float radius, float speed);
 

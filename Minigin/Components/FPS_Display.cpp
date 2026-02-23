@@ -1,14 +1,15 @@
 #include "Components/FPS_Display.h"
-#include "GameObject.h"
 #include "Components/TextComponent.h"
 #include "DeltaClock.h"
+#include "Components/Component.h"
+#include "GameObject.h"
 
+#include <cassert>
 #include <format>
 #include <string>
-#include <cassert>
-
-// .h includes
-#include "Components/Component.h"
+#include <iomanip>
+#include <ios>
+#include <sstream>
 
 #pragma region Game_Loop
 void dae::FPS_Display::Start()
@@ -36,7 +37,13 @@ void dae::FPS_Display::Update()
 
 void dae::FPS_Display::UpdateDisplay()
 {
+#if __EMSCRIPTEN__
+	std::ostringstream stream{};
+	stream << std::fixed << std::setprecision(1) << m_averageFPS << " FPS";
+	std::string const fpsText = stream.str();
+#else
 	std::string const fpsText{ std::format("{:.1f} FPS", m_averageFPS) };
+#endif
 	m_textComp->SetText(fpsText);
 }
 
