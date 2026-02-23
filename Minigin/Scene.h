@@ -4,16 +4,18 @@
 #include <memory>
 #include <vector>
 #include "GameObject.h"
+#include <string_view>
 
 namespace dae
 {
 	class Scene final
 	{
 	public:
+		GameObject* GetObj(std::string_view objName);
+
 		// TODO: Look if it would be better to implement similar to addcomponent.
 		void Add(std::unique_ptr<GameObject> object);
 		void Remove(GameObject const& object);
-		void RemoveAll();
 
 		void Start();
 		void FixedUpdate();

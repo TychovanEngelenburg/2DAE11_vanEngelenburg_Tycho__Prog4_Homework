@@ -14,33 +14,28 @@ else()
 endif()
 
 # list source files here
-add_executable(${TARGET_NAME} ${TARGET_PARAM}) 
-
-target_sources(${TARGET_NAME}
-    PRIVATE
-         Minigin/GameObject.cpp
-        Minigin/InputManager.cpp
-        Minigin/Main.cpp
-        Minigin/Minigin.cpp
-        Minigin/Renderer.cpp
-        Minigin/ResourceManager.cpp
-        Minigin/Scene.cpp
-        Minigin/SceneManager.cpp
-        Minigin/DeltaClock.cpp
-        Minigin/Types/Font.cpp
-        Minigin/Types/Texture2D.cpp
-        Minigin/Types/Transform.cpp
-        Minigin/Components/TextComponent.cpp
-        Minigin/Components/Sprite.cpp
-        Minigin/Components/Component.cpp 
-        Minigin/Components/FPS_Display.cpp 
-)
+add_executable(${TARGET_NAME} ${TARGET_PARAM}
+    Minigin/GameObject.cpp    
+    Minigin/InputManager.cpp
+    Minigin/Main.cpp
+    Minigin/Minigin.cpp
+    Minigin/Renderer.cpp
+    Minigin/ResourceManager.cpp
+    Minigin/Scene.cpp
+    Minigin/SceneManager.cpp
+    Minigin/DeltaClock.cpp
+    Minigin/Types/Font.cpp
+    Minigin/Types/Texture2D.cpp
+    Minigin/Types/Transform.cpp
+    Minigin/Components/TextComponent.cpp
+    Minigin/Components/Sprite.cpp
+    Minigin/Components/Component.cpp 
+    Minigin/Components/FPS_Display.cpp  "Minigin/Components/Orbiter.cpp")
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
 
 include(FetchContent)
-
 # add glm
 find_package(glm CONFIG QUIET)
 if(NOT glm_FOUND)

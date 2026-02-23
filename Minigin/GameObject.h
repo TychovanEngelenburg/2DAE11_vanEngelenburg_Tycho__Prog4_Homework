@@ -7,13 +7,14 @@
 #include <string>
 #include <string_view>
 #include <memory>
-#include <typeindex>
 #include <concepts>
 #include <glm/fwd.hpp>
 #include <algorithm>
 #include <stdexcept>
 #include <utility>
 #include <vector>
+#include <list>
+#include <unordered_map>
 
 namespace dae
 {
@@ -21,13 +22,15 @@ namespace dae
 	class GameObject final
 	{
 	public:
-		Transform const& GetTransform() const noexcept;
-		std::string_view GetName() const noexcept;
+		Transform& GetTransform();
+		std::string const& GetName() const noexcept;
 		bool IsDestroyed() const noexcept;
+		bool IsActive() const noexcept;
 
-		void SetPosition(float x, float y);
+		void SetActive(bool isActive);
+		//void SetPosition(float x, float y);
+
 		void Destroy();
-		//void SetName(std::string_view name);
 
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args);
@@ -64,7 +67,6 @@ namespace dae
 		std::string m_name;
 		bool m_active;
 		bool m_destroyed;
-		//std::unordered_map<std::type_index, std::unique_ptr<Component> > m_components;
 		std::vector< std::unique_ptr<Component>> m_components;
 	};
 
@@ -121,14 +123,10 @@ namespace dae
 	template<typename T>
 	inline void GameObject::RemoveComponent()
 	{
-		for (auto& component : m_components)
-		{
-			if (component.GetType() == std::type_index(typeid(T)))
+		std::erase_if(m_components, [](std::unique_ptr<Component> const& component)
 			{
-				m_components.erase(component);
-				return;
-			}
-		}
+				return dynamic_cast<T*>(component.get());
+			});
 	}
 }
 #endif // !GAMEOBJECT_H

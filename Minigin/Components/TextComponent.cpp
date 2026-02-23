@@ -27,11 +27,6 @@ void dae::TextComponent::SetText(std::string_view text)
 	m_needsUpdate = true;
 }
 
-void dae::TextComponent::SetOffset(float x, float y)
-{
-	GetOwner()->SetPosition(x, y);
-}
-
 void dae::TextComponent::SetColor(SDL_Color const& color)
 {
 	m_color = color;

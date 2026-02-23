@@ -10,6 +10,8 @@ namespace dae
 		GameObject* GetOwner() const noexcept;
 		bool IsActive() const noexcept;
 
+		void SetActive(bool isActive);
+
 		virtual void Start();
 		virtual void FixedUpdate();
 		virtual void Update();

@@ -1,14 +1,21 @@
 #include "Scene.h"
 
+#include "GameObject.h"
 #include <algorithm>
 #include <cassert>
-#include <utility>
-
-// .h includes
 #include <memory>
+#include <string_view>
+#include <utility>
 #include <vector>
-#include "GameObject.h"
 
+
+dae::GameObject* dae::Scene::GetObj(std::string_view objName)
+{
+	return std::find_if(m_objects.begin(), m_objects.end(), [&objName](auto const& ptr)
+		{
+			return ptr->GetName() == objName;
+		})->get();
+}
 
 void dae::Scene::Add(std::unique_ptr<GameObject> object)
 {
@@ -28,17 +35,15 @@ void dae::Scene::Remove(GameObject const& object)
 	);
 }
 
-void dae::Scene::RemoveAll()
-{
-	m_objects.clear();
-}
-
 #pragma region Game_Loop
 void dae::Scene::Start()
 {
 	for (auto& object : m_objects)
 	{
-		object->Start();
+		if (object->IsActive())
+		{
+			object->Start();
+		}
 	}
 }
 
@@ -46,15 +51,21 @@ void dae::Scene::FixedUpdate()
 {
 	for (auto& object : m_objects)
 	{
-		object->FixedUpdate();
+		if (object->IsActive())
+		{
+			object->FixedUpdate();
+		}
 	}
 }
 
 void dae::Scene::Update()
 {
-	for(auto& object : m_objects)
+	for (auto& object : m_objects)
 	{
-		object->Update();
+		if (object->IsActive())
+		{
+			object->Update();
+		}
 	}
 }
 
@@ -62,7 +73,10 @@ void dae::Scene::Render() const
 {
 	for (auto const& object : m_objects)
 	{
-		object->Render();
+		if (object->IsActive())
+		{
+			object->Render();
+		}
 	}
 }
 
@@ -71,11 +85,16 @@ void dae::Scene::LateUpdate()
 
 	for (auto const& object : m_objects)
 	{
-		object->LateUpdate();
-		if (object->IsDestroyed())
+		if (object->IsActive())
 		{
-			m_deletionList.push_back(object.get());
+			object->LateUpdate();
 		}
+
+
+		std::erase_if(m_objects, [](std::unique_ptr<GameObject> const& object)
+			{
+				return object->IsDestroyed();
+			});
 	}
 
 	for (auto const object : m_deletionList)
@@ -88,7 +107,11 @@ void dae::Scene::End()
 {
 	for (auto const& object : m_objects)
 	{
-		object->End();
+		if (object->IsActive())
+		{
+			object->End();
+		}
+
 	}
 }
 #pragma endregion Game_Loop

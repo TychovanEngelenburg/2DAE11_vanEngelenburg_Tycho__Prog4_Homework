@@ -7,13 +7,15 @@
 #include <string_view>
 #include <memory>
 #include <glm/fwd.hpp>
+#include <string>
+#include <vector>
 
-dae::Transform const& dae::GameObject::GetTransform() const noexcept
+dae::Transform& dae::GameObject::GetTransform()
 {
 	return m_transform;
 }
 
-std::string_view dae::GameObject::GetName() const noexcept
+std::string const& dae::GameObject::GetName() const noexcept
 {
 	return m_name;
 }
@@ -23,9 +25,14 @@ bool dae::GameObject::IsDestroyed() const noexcept
 	return m_destroyed;
 }
 
-void dae::GameObject::SetPosition(float x, float y)
+bool dae::GameObject::IsActive() const noexcept
 {
-	m_transform.SetPosition(x, y, 0.0f);
+	return m_active;
+}
+
+void dae::GameObject::SetActive(bool isActive)
+{
+	m_active = isActive;
 }
 
 void dae::GameObject::Destroy()
@@ -45,11 +52,10 @@ void dae::GameObject::Update()
 {
 	for (auto& component : m_components)
 	{
-		if (!component->IsActive())
+		if (component->IsActive())
 		{
-			continue;
+			component->Update();
 		}
-		component->Update();
 	}
 }
 
@@ -57,11 +63,10 @@ void dae::GameObject::FixedUpdate()
 {
 	for (auto& component : m_components)
 	{
-		if (!component->IsActive())
+		if (component->IsActive())
 		{
-			continue;
+			component->FixedUpdate();
 		}
-		component->FixedUpdate();
 	}
 }
 
@@ -69,11 +74,10 @@ void dae::GameObject::Render() const
 {
 	for (auto& component : m_components)
 	{
-		if (!component->IsActive())
+		if (component->IsActive())
 		{
-			continue;
+			component->Render();
 		}
-		component->Render();
 	}
 }
 
@@ -81,11 +85,10 @@ void dae::GameObject::LateUpdate()
 {
 	for (auto& component : m_components)
 	{
-		if (!component->IsActive())
+		if (component->IsActive())
 		{
-			continue;
+			component->LateUpdate();
 		}
-		component->LateUpdate();
 	}
 }
 
@@ -101,9 +104,10 @@ void dae::GameObject::End()
 dae::GameObject::GameObject(std::string_view name, glm::vec3 pos)
 	: m_transform{ pos }
 	, m_name{ name }
-	, m_active{true}
+	, m_active{ true }
 	, m_destroyed{}
 	, m_components{}
+
 {
 	m_transform.SetPosition(pos);
 }
@@ -112,3 +116,4 @@ dae::GameObject::~GameObject()
 {
 	m_components.clear();
 }
+

@@ -12,11 +12,13 @@
 #include "Components/TextComponent.h"
 #include "Components/FPS_Display.h"
 #include "Components/Sprite.h"
+#include "Components/Orbiter.h"
 
 #include <glm/fwd.hpp>
 #include <filesystem>
 #include <utility>
 #include <memory>
+#include <SDL3/SDL_main_impl.h>
 
 // TODO: When engine becomes a library this should be handled externally.
 static void load()
@@ -24,31 +26,43 @@ static void load()
 	auto& scene = dae::SceneManager::GetInstance().CreateScene();
 
 	auto object = std::make_unique<dae::GameObject>("Background");
-		{
-			object->AddComponent<dae::Sprite>("background.png");
-			scene.Add(std::move(object));
-		}
+	{
+		object->AddComponent<dae::Sprite>("background.png");
+		scene.Add(std::move(object));
+	}
 
 	object = std::make_unique<dae::GameObject>("Logo", glm::vec3(358.f, 180.f, 0.f));
-		{
-			object->AddComponent<dae::Sprite>("logo.png");
-			scene.Add(std::move(object));
-		}
-	
+	{
+		object->AddComponent<dae::Sprite>("logo.png");
+		scene.Add(std::move(object));
+	}
+
+	object = std::make_unique<dae::GameObject>("OrbitParent", glm::vec3(20.f, 20.f, 0.f));
+	{
+		scene.Add(std::move(object));
+	}
+
+
 	object = std::make_unique<dae::GameObject>("Header_Text", glm::vec3(292.f, 20.f, 0.f));
-		{
-			auto& textComp = object->AddComponent<dae::TextComponent>("Programming 4 Assignment", "Lingua.otf", 36);
-			textComp.SetColor({ 255, 255, 0, 255 });
-			scene.Add(std::move(object));
-		}
+	{
+		auto& textComp = object->AddComponent<dae::TextComponent>("Programming 4 Assignment", "Lingua.otf", 36);
+		textComp.SetColor({ 255, 255, 0, 255 });
+
+		object->AddComponent<dae::Orbiter>(10.f, 10.f);
+		object->GetTransform().SetParent(&scene.GetObj("Logo")->GetTransform());
+		object->GetTransform().SetParent(&scene.GetObj("OrbitParent")->GetTransform());
+		object->GetTransform().SetParent(nullptr);
+
+		scene.Add(std::move(object));
+	}
 
 	object = std::make_unique<dae::GameObject>("FPS_Counter");
-		{
-			auto& textComp = object->AddComponent<dae::TextComponent>("00", "Lingua.otf", 36);
-			textComp.SetColor({ 255, 255, 0, 255 });
-			object->AddComponent<dae::FPS_Display>();
-			scene.Add(std::move(object));
-		}
+	{
+		auto& textComp = object->AddComponent<dae::TextComponent>("00", "Lingua.otf", 36);
+		textComp.SetColor({ 255, 255, 0, 255 });
+		object->AddComponent<dae::FPS_Display>();
+		scene.Add(std::move(object));
+	}
 
 }
 

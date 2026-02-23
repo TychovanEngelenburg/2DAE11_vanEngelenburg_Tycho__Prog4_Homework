@@ -21,7 +21,6 @@ namespace dae
 		std::string_view GetText() const noexcept;
 
 		void SetText(std::string_view text);
-		void SetOffset(float x, float y);
 		void SetColor(SDL_Color const& color);
 	
 		void Update() override;

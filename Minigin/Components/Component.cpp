@@ -11,6 +11,11 @@ bool dae::Component::IsActive() const noexcept
 	return m_active;
 }
 
+void dae::Component::SetActive(bool isActive)
+{
+	m_active = isActive;
+}
+
 #pragma region Game_Loop
 void dae::Component::Start() {}
 
