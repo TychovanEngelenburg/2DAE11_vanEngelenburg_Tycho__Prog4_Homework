@@ -2,12 +2,12 @@
 #define ORBITER_H
 #include "Component.h"
 
-/// <summary>
-/// Rudamentary/temporary component to demonstrate the scenegraph.
-/// </summary>
 namespace dae
 {
 	class GameObject;
+/// <summary>
+/// Rudamentary/temporary component that makes an object orbit it's parent. (to demonstrate the scenegraph)
+/// </summary>
 	class Orbiter final : public Component
 	{
 	public:

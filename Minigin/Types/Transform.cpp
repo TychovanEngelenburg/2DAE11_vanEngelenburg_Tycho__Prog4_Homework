@@ -16,7 +16,7 @@ int dae::Transform::GetChildCount() const noexcept
 
 dae::Transform* dae::Transform::GetChildAt(size_t idx) const noexcept
 {
-	if (idx >= GetChildCount())
+	if (idx >= m_children.size())
 	{
 		return nullptr;
 	}

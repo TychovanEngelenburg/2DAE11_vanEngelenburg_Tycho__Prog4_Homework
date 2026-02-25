@@ -17,7 +17,7 @@ endif()
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
     Minigin/GameObject.cpp    
     Minigin/InputManager.cpp
-    Minigin/Main.cpp
+    Game/Main.cpp
     Minigin/Minigin.cpp
     Minigin/Renderer.cpp
     Minigin/ResourceManager.cpp
@@ -30,7 +30,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
     Minigin/Components/TextComponent.cpp
     Minigin/Components/Sprite.cpp
     Minigin/Components/Component.cpp 
-    Minigin/Components/FPS_Display.cpp  "Minigin/Components/Orbiter.cpp")
+    Minigin/Components/FPS_Display.cpp  
+    Minigin/Components/Orbiter.cpp)
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)

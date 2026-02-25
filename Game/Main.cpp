@@ -13,14 +13,18 @@
 #include "Components/FPS_Display.h"
 #include "Components/Sprite.h"
 #include "Components/Orbiter.h"
-
 #include <glm/fwd.hpp>
 #include <filesystem>
 #include <utility>
 #include <memory>
 #include <SDL3/SDL_main_impl.h>
 
-// TODO: When engine becomes a library this should be handled externally.
+
+/// <summary>
+/// This script and the surrounding "Game" folder is a temporary stand in for the eventual external game project. 
+/// It's purpose is to test engine functions and it should not be included in the final engine library!
+/// </summary>
+
 static void load()
 {
 	auto& scene = dae::SceneManager::GetInstance().CreateScene();
@@ -64,7 +68,6 @@ static void load()
 		object->AddComponent<dae::FPS_Display>();
 		scene.Add(std::move(object));
 	}
-
 }
 
 
