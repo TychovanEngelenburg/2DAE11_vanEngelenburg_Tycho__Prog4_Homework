@@ -35,18 +35,10 @@ static void load()
 		scene.Add(std::move(object));
 	}
 
-	object = std::make_unique<dae::GameObject>("OrbitParent", glm::vec3(292.f, 20.f, 0.f));
-	{
-		//object->GetTransform().Rotate(45);
-		scene.Add(std::move(object));
-	}
 
 	object = std::make_unique<dae::GameObject>("Logo", glm::vec3(358.f, 180.f, 0.f));
 	{
 		object->AddComponent<dae::Sprite>("logo.png");
-		object->AddComponent<dae::Orbiter>(50.f, -1.f);
-		object->GetTransform().SetParent(&scene.GetObjectByName("OrbitParent")->GetTransform());
-
 		scene.Add(std::move(object));
 	}
 
@@ -54,10 +46,6 @@ static void load()
 	{
 		auto& textComp = object->AddComponent<dae::TextComponent>("Programming 4 Assignment", "Lingua.otf", 36);
 		textComp.SetColor({ 255, 255, 0, 255 });
-
-		object->AddComponent<dae::Orbiter>(30.f, 5.f);
-		object->GetTransform().SetParent(&scene.GetObjectByName("Logo")->GetTransform());
-
 		scene.Add(std::move(object));
 	}
 
@@ -67,6 +55,36 @@ static void load()
 		textComp.SetColor({ 255, 255, 0, 255 });
 		object->AddComponent<dae::FPS_Display>();
 		scene.Add(std::move(object));
+	}
+
+	object = std::make_unique<dae::GameObject>("OrbitParent", glm::vec3(150.f, 150.f, 0.f));
+	{
+		scene.Add(std::move(object));
+	}		
+	
+
+
+	object = std::make_unique<dae::GameObject>("Tank", glm::vec3(0.f, 0.f, 0.f));
+	{
+		auto& sprite = object->AddComponent<dae::Sprite>("T_SpriteSheet_Tron.png", dae::SpriteSheet(13, 5));
+		sprite.SetSprite(10, 0);
+
+		object->AddComponent<dae::Orbiter>(50.f, -1.f);
+		object->GetTransform().SetParent(&scene.GetObjectByName("OrbitParent")->GetTransform());
+
+		scene.Add(std::move(object));
+	}
+	
+	object = std::make_unique<dae::GameObject>("Barrel", glm::vec3(0.f, 0.f, 0.f));
+	{
+		auto& sprite = object->AddComponent<dae::Sprite>("T_SpriteSheet_Tron.png", dae::SpriteSheet(13, 5));
+		sprite.SetSprite(6, 1);
+
+		object->AddComponent<dae::Orbiter>(30.f, 5.f);
+		object->GetTransform().SetParent(&scene.GetObjectByName("Tank")->GetTransform());
+	 
+	scene.Add(std::move(object));
+
 	}
 }
 

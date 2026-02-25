@@ -6,19 +6,31 @@
 
 #include <memory>
 #include <filesystem>
+#include <SDL3/SDL_rect.h>
+
+
+// TODO: Replace with sprite sheet system as well as utilizing a rendercomponent.
+
 
 namespace dae
 {
+	struct SpriteSheet
+	{
+		int cols = 1;
+		int rows = 1;
+	};
+
 	class GameObject;
 	class Sprite final : public Component
 	{
 	public:
 		void SetTexture(std::filesystem::path const& filename);
-		// TODO: Texture offset/scaling?
+		void SetSprite(int x, int y);
 
 		void Render() const override;
 
-		Sprite(GameObject& owner, std::filesystem::path const& filename);
+		Sprite(GameObject& owner, std::filesystem::path const& filePath);
+		Sprite(GameObject& owner, std::filesystem::path const& filePath, SpriteSheet const& spriteSheetData );
 		~Sprite() override = default;
 		Sprite(Sprite const& other) = delete;
 		Sprite(Sprite&& other) = delete;
@@ -26,8 +38,12 @@ namespace dae
 		Sprite& operator=(Sprite&& other) = delete;
 
 	private:
-		// TODO: No Shared_ptrs?
+	
+
 		std::shared_ptr<Texture2D> m_texture;
+		SpriteSheet  m_spriteSheet;
+		SDL_FRect m_sourceRect;
+
 	};
 }
 #endif // !SPRITE_H

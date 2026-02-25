@@ -60,8 +60,13 @@ void dae::TextComponent::Render() const
 {
 	if (m_textTexture)
 	{
-		auto const& pos = GetOwner()->GetTransform().GetPosition();
-		Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
+		SDL_FRect dst{};
+		dst.x = GetOwner()->GetTransform().GetPosition().x;
+		dst.y = GetOwner()->GetTransform().GetPosition().y;
+
+		SDL_GetTextureSize(m_textTexture->GetSDLTexture(), &dst.w, &dst.h);
+
+		SDL_RenderTexture(Renderer::GetInstance().GetSDLRenderer(), m_textTexture->GetSDLTexture(), nullptr, &dst);
 	}
 }
 std::string_view dae::TextComponent::GetText() const noexcept
