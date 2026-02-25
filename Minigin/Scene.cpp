@@ -9,7 +9,7 @@
 #include <vector>
 
 
-dae::GameObject* dae::Scene::GetObj(std::string_view objName)
+dae::GameObject* dae::Scene::GetObjectByName(std::string_view objName)
 {
 	return std::find_if(m_objects.begin(), m_objects.end(), [&objName](auto const& ptr)
 		{

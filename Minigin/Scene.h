@@ -11,7 +11,11 @@ namespace dae
 	class Scene final
 	{
 	public:
-		GameObject* GetObj(std::string_view objName);
+		/// <summary>
+		/// Quick and dirty way to get the first GameObject with a specific string name. 
+		/// Try to prevent use; heavy string comparison and no collision prevention.
+		/// </summary>
+		GameObject* GetObjectByName(std::string_view objName);
 
 		// TODO: Look if it would be better to implement similar to addcomponent.
 		void Add(std::unique_ptr<GameObject> object);

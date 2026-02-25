@@ -1,8 +1,7 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
-#include <glm/detail/type_vec3.hpp>
-#include <glm/fwd.hpp>
+#include <glm/glm.hpp>
 #include <vector>
 
 namespace dae
@@ -10,35 +9,49 @@ namespace dae
 	class Transform final
 	{
 	public:
-		glm::vec3 const& GetPosition();
-		glm::vec3 const& GetLocalPosition();
 
 		Transform* GetParent() const noexcept;
 		int GetChildCount() const noexcept;
-		Transform* GetChildAt() const noexcept;
+		Transform* GetChildAt(size_t idx) const noexcept;
+		bool HasChild(Transform* obj);
+		bool IsChildOf(Transform* obj);
+	
+		glm::vec3 const& GetLocalPosition();
+		glm::vec3 const& GetPosition();
 
 		void SetParent(Transform* parent, bool keepWorldPos = false);
-
-		//void SetPosition(float x, float y, float z = 0);
-		void SetPosition( glm::vec3 const& pos);
 		void SetLocalPosition( glm::vec3 const& pos);
-		void SetPositionDirty();
+		void SetPosition( glm::vec3 const& pos);
 
-		void UpdateWorldPos();
 		void Translate(float x, float y, float z = 0);
 		void Translate(glm::vec3 const& diff);
+		void Rotate(float degrees);
+		void SetScale(float scale);
+		void SetScale(glm::vec3 const& diff);
 
 		Transform(glm::vec3 const& pos = {0.f, 0.f, 0.f});
 
 	private:
+		// World data
 		bool m_positionDirty;
 		glm::vec3 m_worldPosition;
+		float m_worldRotation;
+		glm::vec3 m_worldScale;
+
+		// Local data
 		glm::vec3 m_localPosition;
+		float m_localRotation;
+		glm::vec3 m_localScale;
 
 		Transform* m_parent;
 		std::vector<Transform*> m_children;
 
-		bool IsChildOf(Transform* obj);
+		glm::mat4 GetWorldMatrix() const;
+		glm::mat4 GetLocalMatrix() const;
+
+		void UpdateWorldPos();
+
+		void SetPositionDirty();
 		void AddChild(Transform* child);
 		void RemoveChild(Transform* child);
 	};

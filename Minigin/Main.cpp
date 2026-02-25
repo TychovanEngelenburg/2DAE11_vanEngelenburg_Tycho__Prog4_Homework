@@ -31,27 +31,28 @@ static void load()
 		scene.Add(std::move(object));
 	}
 
+	object = std::make_unique<dae::GameObject>("OrbitParent", glm::vec3(292.f, 20.f, 0.f));
+	{
+		//object->GetTransform().Rotate(45);
+		scene.Add(std::move(object));
+	}
+
 	object = std::make_unique<dae::GameObject>("Logo", glm::vec3(358.f, 180.f, 0.f));
 	{
 		object->AddComponent<dae::Sprite>("logo.png");
+		object->AddComponent<dae::Orbiter>(50.f, -1.f);
+		object->GetTransform().SetParent(&scene.GetObjectByName("OrbitParent")->GetTransform());
+
 		scene.Add(std::move(object));
 	}
-
-	object = std::make_unique<dae::GameObject>("OrbitParent", glm::vec3(20.f, 20.f, 0.f));
-	{
-		scene.Add(std::move(object));
-	}
-
 
 	object = std::make_unique<dae::GameObject>("Header_Text", glm::vec3(292.f, 20.f, 0.f));
 	{
 		auto& textComp = object->AddComponent<dae::TextComponent>("Programming 4 Assignment", "Lingua.otf", 36);
 		textComp.SetColor({ 255, 255, 0, 255 });
 
-		object->AddComponent<dae::Orbiter>(10.f, 10.f);
-		object->GetTransform().SetParent(&scene.GetObj("Logo")->GetTransform());
-		object->GetTransform().SetParent(&scene.GetObj("OrbitParent")->GetTransform());
-		object->GetTransform().SetParent(nullptr);
+		object->AddComponent<dae::Orbiter>(30.f, 5.f);
+		object->GetTransform().SetParent(&scene.GetObjectByName("Logo")->GetTransform());
 
 		scene.Add(std::move(object));
 	}
