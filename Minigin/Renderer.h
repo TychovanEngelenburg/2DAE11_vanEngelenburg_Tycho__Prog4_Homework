@@ -5,6 +5,8 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
 #include "Singleton.h"
+#include "ImGUI/imgui_window.h"
+#include <memory>
 
 // TODO: look into making a different renderer?
 namespace dae
@@ -27,16 +29,12 @@ namespace dae
 		void Render() const;
 		void Destroy();
 
-		//~Renderer() override = default;
-		//Renderer(Renderer const& other) = delete;
-		//Renderer(Renderer&& other) = delete;
-		//Renderer& operator=(Renderer const& other) = delete;
-		//Renderer& operator=(Renderer&& other) = delete;
-
 	private:
 		SDL_Renderer* m_renderer{};
 		SDL_Window* m_window{};
 		SDL_Color m_clearColor{};
+
+		imgui_Window* m_imguiWindow{};
 	};
 }
 #endif // !RENDERER_H
